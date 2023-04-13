@@ -1,20 +1,26 @@
+import React, { lazy, Suspense } from "react";
+import { CookiesProvider } from "react-cookie";
+import LinearProgress from "@mui/material/LinearProgress";
+const CustomSnackbar = lazy(() => import("./Utils/CustomSnackbar"));
+const CustomProgressBar = lazy(() => import("./Utils/CustomProgressBar"));
+const RouteIndex = lazy(() => import("./route"));
 
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard/index";
-import View from "./components/ViewRecords/index";
-import About from "./components/Aboutus/index";
-import Thankyou from "./components/Common/Thankyou";
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-        <Route exact path="/view-records" element={<View />} />
-        <Route exact path="/about" element={<About />} />
-        <Route exact path="/thankyou" element={<Thankyou />} />
-      </Routes>
-    </Router>
+    <Suspense
+      fallback={
+        <div>
+          {" "}
+          <LinearProgress sx={{background:"#DC143C"}} />
+        </div>
+      }
+    >
+      <CookiesProvider>
+        <CustomSnackbar />
+        <CustomProgressBar />
+        <RouteIndex />
+      </CookiesProvider>
+    </Suspense>
   );
 }
 

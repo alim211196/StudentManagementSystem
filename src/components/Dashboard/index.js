@@ -1,51 +1,35 @@
 import React, { useState } from "react";
-
-import Header from "../Common/Header";
-import Footer from "../Common/Footer";
-import axios from "axios";
-import CustomTheme from "../Common/CustomTheme";
-import { useNavigate } from "react-router-dom";
-import CustomSnackbar from "../Common/CustomSnackbar";
-import Forms from "../Common/Forms";
-
+ import CustomTheme from "../../Utils/CustomTheme";
+import Forms from "./Forms";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../app/reducer/Snackbar";
+import MiniDrawer from "../Drawer";
+import { CREATE_STUDENT } from "../../ApiFunctions/students";
+import { errorHandler } from "../../ApiFunctions/ErrorHandler";
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [state, setState] = React.useState({
-    severity: "",
-    message: "success",
-  });
-  const [open, setOpen] = useState(false);
-     const inputDate = new Date();
-     const isoDate = inputDate.toISOString();
-     const formattedDate = isoDate.slice(0, 10);
-  const [formData, setFormData] = useState({
+  const dispatch = useDispatch();
+  const inputDate = new Date();
+  const isoDate = inputDate.toISOString();
+  const formattedDate = isoDate.slice(0, 10);
+  const DataObj = {
     fullName: "",
     email: "",
     phone: "",
     dob: formattedDate,
     gender: "male",
+    course:"bca",
+    course_year:"first year",
     address: "",
     city: "",
     pinCode: "",
     state: "",
     country: "",
-  });
-  function handleClose() {
-    setOpen(false);
-  }
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
   };
+  const [formData, setFormData] = useState(DataObj);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formDataValues = new FormData(event.target)
-
+    const formDataValues = new FormData(event.target);
     // Convert formData to an object
     const data = {};
     for (let [key, value] of formDataValues.entries()) {
@@ -54,46 +38,40 @@ const Dashboard = () => {
     // Check if all fields are filled
     const hasEmptyFields = Object.values(data).some((value) => !value);
     if (hasEmptyFields) {
-           setState({
-             message: "Please fill out all fields",
-             severity: "error",
-           });
-           setOpen(true);
+      dispatch(
+        openSnackbar({
+          message: "Please fill out all fields.",
+          severity: "error",
+        })
+      );
       return;
     }
-    axios
-      .post("http://localhost:3000/students", formData)
-      .then((response) => {
-        if (response.status === 201) {
-          setState({
-            message: "Submitted Successfully.",
-            severity: "success",
-          });
-          setOpen(true);
-          navigate("/thankyou");
-        }
-      })
-      .catch((error) => {
-        setState({
-          message: "Not Submitted",
-          severity: "error",
-        });
-        setOpen(true);
-      });
+CREATE_STUDENT(formData)
+  .then((res) => {
+  dispatch(
+    openSnackbar({
+      message: "Submitted successfully.",
+      severity: "success",
+    })
+  );
+  setFormData(DataObj);
+  })
+  .catch((err) => {
+    errorHandler(err?.status, err?.data, dispatch);
+  });
   };
 
   return (
     <CustomTheme>
-      <Header />
-      <Forms
-        handleSubmit={handleSubmit}
-        formData={formData}
-        handleChange={handleChange}
-        title={"Please enter your details properly"}
-      />
-
-      <CustomSnackbar handleClose={handleClose} open={open} state={state} />
-      <Footer />
+      <MiniDrawer>
+        <Forms
+          handleSubmit={handleSubmit}
+          formData={formData}
+          setFormData={setFormData}
+          title={"Please enter student details properly"}
+          flag={"add"}
+        />
+      </MiniDrawer>
     </CustomTheme>
   );
 };
