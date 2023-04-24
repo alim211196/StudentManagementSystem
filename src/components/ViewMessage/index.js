@@ -8,6 +8,13 @@ import CardContainer from "../../Utils/CardContainer";
 import { SearchWithFuse } from "../../Utils/SearchWithFuse";
 import { DELETE_COMMENT, GET_COMMENTS } from "../../ApiFunctions/students";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
+import { Container, CssBaseline } from "@mui/material";
+import TitleBox from "../../Utils/TitleBox";
+import {
+  Sms,
+
+} from "@mui/icons-material";
+import { useCookies } from "react-cookie";
 const ViewMessage = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
@@ -15,7 +22,7 @@ const ViewMessage = () => {
   const [data, setData] = useState([]);
   const [ID, setID] = useState("");
 
-
+  const [cookies] = useCookies(["theme"]);
   
   const getStudentComment = () => {
    GET_COMMENTS()
@@ -64,18 +71,30 @@ const ViewMessage = () => {
   };
 
   const newResults = SearchWithFuse(
-    ["fullName", "email", "phone"],
+    ["fullname", "email", "phone"],
     query,
     data
   );
   return (
     <CustomTheme>
-      <MiniDrawer setQuery={setQuery} query={query} data={data}>
-        <CardContainer
-          parentComp={"View Message"}
-          handleOpen={handleOpen}
-          data={newResults}
-        />
+      <MiniDrawer setQuery={setQuery} query={query} data={data} flag={false}>
+        <Container component="main" maxWidth="xl">
+          <CssBaseline />
+          <TitleBox
+            icon={
+              <Sms
+                sx={{ color: cookies.theme === "dark" ? "#fff" : "#1976D2" }}
+              />
+            }
+            text={"View Messages"}
+          />
+          <CardContainer
+            flag={false}
+            parentComp={"View Message"}
+            handleOpen={handleOpen}
+            data={newResults}
+          />
+        </Container>
       </MiniDrawer>
       <DialogBox
         open={dialogOpen}

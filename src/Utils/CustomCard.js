@@ -17,11 +17,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ExpandMore } from "./stylingMethods";
-import { useCookies } from "react-cookie";
-import { Dark00, DarkFFF } from "./CommonCookies";
-const CustomCard = ({ item, handleEdit, handleOpen, parentComp }) => {
+import { Dark00, Dark00FF, DarkFFF } from "./CommonCookies";
+const CustomCard = ({ item, handleEdit, handleOpen, parentComp, cookies }) => {
   const [expanded, setExpanded] = React.useState(false);
-  const [cookies] = useCookies(["theme"]);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -33,73 +32,75 @@ const CustomCard = ({ item, handleEdit, handleOpen, parentComp }) => {
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
-    color:DarkFFF(cookies),
+    color: DarkFFF(cookies),
+    textTransform: "capitalize",
   };
-
+  const hiddenStyle1 = {
+    width: matches ? "100%" : "17rem",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    color: DarkFFF(cookies),
+  };
   // const randomIndex = Math.floor(Math.random() * colors.length);
   // const bgColor = colors[randomIndex];
   const cookieCondition = () => {
     if (cookies.theme === "dark") {
       return {
-        boxShadow: "0px 0px 6px 3px #292929",
-        background: "#000",
+        background:Dark00FF(cookies),
         color: "#fff",
-        border: "1px solid #4f4f4f",
-      };
-    } else {
-      return {
-        boxShadow: "0px 0px 6px 3px #292929",
+        // border: "1px solid #1976D2",
       };
     }
   };
 
   return (
-    <Card sx={cookieCondition()}>
+    <Card elevation={0} sx={cookieCondition()}>
       <CardActionArea
         onClick={() => parentComp === "View Records" && handleEdit(item._id)}
       >
         <CardMedia
           component="div"
           sx={{
-            background: "radial-gradient(circle at center, #DC143C , #292929)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: "1.5rem",
+            p: 1,
+            pt: 2,
           }}
         >
           <Avatar
+            src={item.profileImage}
             sx={{
-              background:Dark00(cookies),
-              color: "#DC143C",
+              background: Dark00(cookies),
+              color: "#1976D2",
               width: 80,
               height: 80,
               fontSize: "40px",
+              border: "1px solid #1976D2",
             }}
           >
-            {CardName(`${item.fullName}`)}
+            {CardName(`${item.fullname}`)}
           </Avatar>
         </CardMedia>
-        <CardContent>
+        <CardContent sx={{ pl: 2, pr: 2, pt: 0, pb: 0 }}>
           <Typography
             gutterBottom
-            variant="h5" 
+            variant="h5"
             component="div"
-            sx={({ textTransform: "capitalize" }, hiddenStyle)}
+            sx={hiddenStyle}
           >
-            {item.fullName}
+            {item?.fullname}
           </Typography>
-          <Typography variant="p">Email:</Typography>
-          <Typography variant="body2" color="text.secondary" sx={hiddenStyle}>
-            {item.email}
+          <Typography variant="body2" color="text.secondary" sx={hiddenStyle1}>
+            {item?.email}
           </Typography>
-          <Typography variant="p">Phone:</Typography>
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ color: DarkFFF(cookies) }}
+            sx={{ color: DarkFFF(cookies), textTransform: "capitalize" }}
           >
-            {item.phone}
+            {item?.course + "-" + item?.course_year}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -108,18 +109,22 @@ const CustomCard = ({ item, handleEdit, handleOpen, parentComp }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "end",
+          pl: 2,
+          pr: 2,
+          pt: 0,
+          pb: 1,
         }}
       >
         {parentComp !== "View Message" && (
           <Tooltip title="Edit" placement="top">
             <IconButton onClick={() => handleEdit(item._id)}>
-              <EditIcon sx={{ fontSize: 20, color: "#DC143C" }} />
+              <EditIcon sx={{ fontSize: 20, color: "#1976D2" }} />
             </IconButton>
           </Tooltip>
         )}
         <Tooltip title="Delete" placement="top">
           <IconButton onClick={() => handleOpen(true, item._id)}>
-            <DeleteIcon sx={{ fontSize: 20, color: "#DC143C" }} />
+            <DeleteIcon sx={{ fontSize: 20, color: "#1976D2" }} />
           </IconButton>
         </Tooltip>
         {parentComp === "View Message" && (

@@ -1,4 +1,4 @@
-export const DashboardStyle = () => {
+export const DashboardStyle = (matches) => {
   const MainContainer = {
       paddingLeft: "0px",
       paddingRight: "0px",
@@ -14,10 +14,15 @@ export const DashboardStyle = () => {
     },
     iconBtn = {
       position: "absolute",
-      left: 60,
+      left: matches ? 70 : 10,
       color: "#fff",
-      top: 60,
+      top: 70,
       cursor: "pointer",
+      borderRadius: "50%",
+      background: '#1976D2',
+      "&:hover": {
+        background: "#1976D2",
+      },
     },
     iconBtnAvatar = {
       width: 28,

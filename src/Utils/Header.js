@@ -6,8 +6,8 @@ import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import CustomTheme from "./CustomTheme";
-import Menu from "../images/menu.png";
-import { Avatar, useMediaQuery } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useMediaQuery } from "@mui/material";
 import ModeComp from "./ModeComp";
 import BeforeLoginMenuBody from "./BeforeLoginMenuBody";
 const Header = () => {
@@ -42,7 +42,7 @@ const Header = () => {
               "&:hover": {
                 background:
                   !matches &&
-                  "radial-gradient(circle at center, #DC143C , #292929)",
+                  "#1976D2",
                 color: !matches && "#fff",
               },
             }}
@@ -62,8 +62,9 @@ const Header = () => {
     <AppBar
       position="fixed"
       sx={{
-        background: "radial-gradient(circle at center, #DC143C , #292929)",
+        background: "radial-gradient(circle at center, #1976D2 , #292929)",
         color: "#fff",
+        height: "64px",
       }}
       elevation={0}
     >
@@ -87,44 +88,18 @@ const Header = () => {
               aria-haspopup="true"
               aria-expanded={MenuOpen ? "true" : undefined}
             >
-              <Avatar
-                src={Menu}
-                variant="square"
-                alt="menu"
-                sx={{ width: 24, height: 24 }}
-              />
+              <MenuIcon sx={{ width: 24, height: 24, color: "#fff" }} />
             </IconButton>
           </>
         ) : (
           <nav>
             {CommonCode("/", "Home")}
-            {/* {CommonCode("/about", "AboutMe")} */}
-            {/* {CommonCode("/contact", "Contact")} */}
             {CommonCode("/sign_in", "Sign in")}
             {CommonCode("/sign_up", "Sign up")}
             <ModeComp />
           </nav>
         )}
       </Toolbar>
-
-      {/* {updown && (
-        <Collapse in={updown} timeout={1000}>
-          {" "}
-          <nav
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {" "}
-            {CommonCode("/", "Home")}
-            {CommonCode("/sign_in", "Sign in")}
-            {CommonCode("/sign_up", "Sign up")}
-          </nav>
-        </Collapse>
-      )} */}
       <BeforeLoginMenuBody
         anchorEl={anchorEl}
         open={MenuOpen}

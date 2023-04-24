@@ -1,20 +1,35 @@
-import { LoadingButton } from "@mui/lab";
+import { Button } from "@mui/material";
 import React, { memo } from "react";
 
 const CustomButton = ({ text, removeMargin }) => {
+
+  const variantChange = ()=>{
+    if(['/sign_in','/forgot-password','/reset-password','/'].includes(window.location.pathname)){
+      return true
+    }
+    else{
+      return false
+    }
+  }
   return (
-    <LoadingButton
+    <Button
       type="submit"
-      variant="contained"
+      variant={variantChange() ?"contained" :"text"}
       sx={{
-        marginTop: removeMargin ? "10px" : "20px",
-        background: "radial-gradient(circle at center, #DC143C , #292929)",
+        mt:variantChange() && 1,
         width: "100%",
-        textTransform:'capitalize'
+        textTransform: "capitalize",
+        background:variantChange() && "#1976D2",
+        color: "#fff",
+        borderColor: "#fff",
+        ":hover": {
+          color: "#fff",
+          borderColor: "#fff",
+        },
       }}
     >
       {text}
-    </LoadingButton>
+    </Button>
   );
 };
 

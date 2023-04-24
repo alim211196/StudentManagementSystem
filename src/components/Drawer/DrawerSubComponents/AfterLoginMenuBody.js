@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { navLinks } from "../../../Utils/navLinks";
 import ModeComp from "../../../Utils/ModeComp";
 import DialogBox from "../../../Utils/DialogBox";
-import search from "../../../images/search.png"
 import MenuWrapper from "../../../Utils/MenuWrapper";
 import CustomDivider from "../../../Utils/CustomDivider";
-import { Typography } from "@mui/material";
+import { Typography, ListItemIcon, ListItemText } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { DarkFF4F } from "../../../Utils/CommonCookies";
 const AfterLoginMenuBody = ({
   anchorEl,
   open,
@@ -24,20 +25,24 @@ const AfterLoginMenuBody = ({
   data,
   userData,
   handleNavigate,
+  cookies,
 }) => {
   const navigate = useNavigate();
   return (
     <>
       <MenuWrapper anchorEl={anchorEl} open={open} handleClose={handleClose}>
         <MenuItem onClick={() => handleNavigate()}>
-          <Avatar
-            variant="square"
-            sx={{ width: "24px !important", height: "24px !important" }}
-            src={userData?.profileImage}
+          <ListItemIcon>
+            <Avatar
+              variant="square"
+              sx={{ width: "24px !important", height: "24px !important" }}
+              src={userData?.profileImage}
+            />
+          </ListItemIcon>
+          <ListItemText
+            primary={userData?.fullname}
+            sx={{ paddingTop: "inherit" }}
           />
-          <Typography sx={{ paddingTop: "inherit" }}>
-            {userData?.firstName + " " + userData?.lastName}
-          </Typography>
         </MenuItem>
 
         {searchCondition() && !upDown && data?.length > 0 && (
@@ -47,17 +52,14 @@ const AfterLoginMenuBody = ({
               handleClose();
             }}
           >
-            <Avatar
-              variant="square"
-              sx={{ width: "24px !important", height: "24px !important" }}
-              src={search}
-            />
-            <Typography sx={{ paddingTop: "inherit" }}> Search</Typography>
+            <ListItemIcon>
+              <SearchIcon sx={{ color: DarkFF4F(cookies) }} />
+            </ListItemIcon>
+            <ListItemText primary={"Search"} sx={{ paddingTop: "inherit" }} />
           </MenuItem>
         )}
 
         {navLinks
-
           .filter(
             (nav) =>
               nav.path !== window.location.pathname && nav.LoggedIn === true
@@ -65,16 +67,13 @@ const AfterLoginMenuBody = ({
           .map((item, index) => {
             return (
               <MenuItem key={index} onClick={() => navigate(item.path)}>
-                {" "}
-                <Avatar
-                  variant="square"
-                  sx={{ width: "24px !important", height: "24px !important" }}
-                  src={item.icon}
+                <ListItemIcon sx={{ color: DarkFF4F(cookies) }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.title}
+                  sx={{ paddingTop: "inherit" }}
                 />
-                <Typography sx={{ paddingTop: "inherit" }}>
-                  {" "}
-                  {item.title}
-                </Typography>
               </MenuItem>
             );
           })}
@@ -89,12 +88,8 @@ const AfterLoginMenuBody = ({
             handleClose();
           }}
         >
-          <Avatar
-            variant="square"
-            sx={{ width: "24px !important", height: "24px !important" }}
-            src={icon}
-          />
-          <Typography sx={{ paddingTop: "inherit" }}> Logout</Typography>
+          <ListItemIcon sx={{ color: DarkFF4F(cookies) }}>{icon}</ListItemIcon>
+          <ListItemText primary={"Logout"} sx={{ paddingTop: "inherit" }} />
         </MenuItem>
       </MenuWrapper>
       <DialogBox

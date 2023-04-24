@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import CustomPassword from "../../Utils/CustomPassword";
-import ResetPass from "../../images/resetPass.png";
 import BoxWrapper from "../../Utils/BoxWrapper";
 import { RESET_PASSWORD } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
@@ -69,7 +68,6 @@ export default function ResetPassword() {
     <BoxWrapper
       maxWidth={"xs"}
       text={"Reset password"}
-      icon={ResetPass}
       label={"reset password"}
       handleSubmit={handleSubmit}
       cookies={cookies}

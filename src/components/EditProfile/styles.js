@@ -8,7 +8,7 @@ export const ProfileStyle = (cookies) => {
     },
     editProfileBtn = {
       marginTop: "10px",
-      background: "radial-gradient(circle at center, #DC143C , #292929)",
+      background: "#1976D2",
       width: "100%",
       textTransform: "capitalize",
     },
@@ -30,7 +30,7 @@ export const ProfileStyle = (cookies) => {
       width: 80,
       height: 80,
       borderRadius: "50%",
-      boxShadow: "0px 0px 0px 6px #f0f0f0",
+      boxShadow: "0px 0px 10px 1px #f0f0f0",
     },
     imageIcon = {
       fontSize: "20px",

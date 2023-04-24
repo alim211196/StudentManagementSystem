@@ -8,12 +8,12 @@ const useStyles = makeStyles({
     bottom: "20px",
     right: "20px",
     borderRadius: "50%",
-    background: "radial-gradient(circle at center, #DC143C , #292929)",
+    background: "radial-gradient(circle at center, #1976D2 , #292929)",
     color: "white",
     width: "50px",
     height: "50px",
     "&:hover": {
-      background: "radial-gradient(circle at center, #DC143C , #292929)",
+      background: "radial-gradient(circle at center, #1976D2 , #292929)",
     },
   },
   hidden: {

@@ -1,13 +1,15 @@
 import React, { memo } from "react";
-import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import { navLinks } from "./navLinks";
 import ModeComp from "./ModeComp";
 import MenuWrapper from "./MenuWrapper";
 import CustomDivider from "./CustomDivider";
-import { Typography } from "@mui/material";
+import { ListItemIcon, ListItemText } from "@mui/material";
+import { useCookies } from "react-cookie";
+import { DarkFF4F } from "./CommonCookies";
 const BeforeLoginMenuBody = ({ anchorEl, open, handleClose }) => {
+    const [cookies] = useCookies(["theme"]);
   const navigate = useNavigate();
   return (
     <>
@@ -21,22 +23,31 @@ const BeforeLoginMenuBody = ({ anchorEl, open, handleClose }) => {
             return (
               <MenuItem key={index} onClick={() => navigate(item.path)}>
                 {" "}
-                <Avatar
-                  variant="square"
-                  sx={{ width: "24px !important", height: "24px !important" }}
-                  src={item.icon}
+                <ListItemIcon
+                  sx={{
+                    width: "24px !important",
+                    height: "24px !important",
+                    color: DarkFF4F(cookies),
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.title}
+                  sx={{ paddingTop: "inherit" }}
                 />
-                <Typography sx={{ paddingTop: "inherit" }}>
-                  {" "}
-                  {item.title}
-                </Typography>
               </MenuItem>
             );
           })}
         <CustomDivider title={"Settings"} />
         <MenuItem sx={{ padding: "initial" }}>
-          <ModeComp />
-          <Typography sx={{ paddingTop: "inherit" }}> Change Mode</Typography>
+          <ListItemIcon>
+            <ModeComp />
+          </ListItemIcon>
+          <ListItemText
+            primary={" Change Mode"}
+            sx={{ paddingTop: "inherit" }}
+          />
         </MenuItem>
       </MenuWrapper>
     </>

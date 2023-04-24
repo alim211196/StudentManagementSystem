@@ -1,25 +1,22 @@
-import { Dark00 } from "../../Utils/CommonCookies";
+import { CardBorder, Dark00 } from "../../Utils/CommonCookies";
 
 export const HomeStyle = (cookies) => {
-  let Container = { margin: "85px 20px 0px 20px" },
+  let Container = { margin: "60px 0px 0px 0px" },
     MainContainer = {
-      borderRadius: "10px",
-      boxShadow: "0px 0px 6px 3px #292929",
       transition: "0.3s",
-      "&:hover": {
-        boxShadow: "0px 0px 6px 3px #292929",
-      },
       position: "relative",
-      backgroundSize: "cover",
+      backgroundSize: "cover !important",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       background: `url(https://source.unsplash.com/random/?city,evening)`,
+      borderBottom: CardBorder(cookies, "#1976D2"),
     },
     innerBox = {
       textAlign: "left",
       padding: "2rem",
       background: "rgba(41, 41, 41, 0.5)",
-      borderRadius: "10px",
+      zIndex: 0,
+      position: "relative",
     },
     typo1 = {
       margin: 0,
@@ -41,7 +38,6 @@ export const HomeStyle = (cookies) => {
     },
     parentContainer = {
       backgroundColor: Dark00(cookies),
-      // height: "100vh",
       width: "100%",
       overflow: "scroll",
       overflowY: "auto",
@@ -57,7 +53,7 @@ export const HomeStyle = (cookies) => {
         webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
       },
       "&::-webkit-scrollbar-thumb": {
-        backgroundColor: "#DC143C",
+        backgroundColor: "#1976D2",
         outline: "1px solid slategrey",
       },
 

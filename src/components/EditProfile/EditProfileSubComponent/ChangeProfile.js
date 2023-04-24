@@ -1,30 +1,38 @@
-import { Avatar, Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import CustomButton from "../../../Utils/CustomButton";
-import CustomDivider from "../../../Utils/CustomDivider";
-import CustomTextField from "../../../Utils/CustomTextField";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { openSnackbar } from "../../../app/reducer/Snackbar";
-import { LoadingButton } from "@mui/lab";
-import { IconButton, Tooltip, useMediaQuery } from "@mui/material";
-import { PhotoCamera, HighlightOff } from "@mui/icons-material";
 import { UPDATE_USER } from "../../../ApiFunctions/users";
 import { errorHandler } from "../../../ApiFunctions/ErrorHandler";
-import { StyledBadge } from "../../../Utils/stylingMethods";
-const ChangeProfile = ({ styles }) => {
-  const matches = useMediaQuery("(min-width:900px)");
+import PersonalInfo from "../../../Utils/PersonalInfo";
+import EducationalInfo from "../../../Utils/EducationalInfo";
+import AddressInfo from "../../../Utils/AddressInfo";
+import FormButton from "../../../Utils/FormButton";
+const ChangeProfile = () => {
   const { userData } = useSelector((state) => state.getUserProfile);
   const [cookies] = useCookies(["UserId"]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [changeBtnState, setChangeBtnState] = useState(true);
-
+  const inputDate = new Date();
+  const isoDate = inputDate.toISOString();
+  const formattedDate = isoDate.slice(0, 10);
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+  const DataObj = {
+    fullname: "",
     email: "",
-  });
+    phone: "",
+    dob: formattedDate,
+    gender: "male",
+    course: "bca",
+    course_year: "first year",
+    address: "",
+    city: "",
+    pinCode: "",
+    state: "",
+    country: "",
+    role: "Teacher",
+  };
+  const [formData, setFormData] = useState(DataObj);
 
   const handleFileInputChange = (e) => {
     let files = e.target.files;
@@ -54,12 +62,22 @@ const ChangeProfile = ({ styles }) => {
 
   useEffect(() => {
     setFormData({
-      firstName: userData?.firstName,
-      lastName: userData?.lastName,
+      fullname: userData?.fullname,
+      phone: userData?.phone,
       email: userData?.email,
+      dob: formattedDate,
+      gender: userData?.gender,
+      course: userData?.course,
+      course_year: userData?.course_year,
+      address: userData?.address,
+      city: userData?.city,
+      pinCode: userData?.pinCode,
+      state: userData?.state,
+      country: userData?.country,
+      role: "Teacher",
     });
     setSelectedFile(userData?.profileImage);
-  }, [userData]);
+  }, [userData, formattedDate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -82,13 +100,10 @@ const ChangeProfile = ({ styles }) => {
       return;
     }
 
-    const newFormData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      profileImage: selectedFile,
-    };
-
+   const newFormData = {
+     ...formData,
+     profileImage: selectedFile,
+   };
     UPDATE_USER(cookies.UserId, newFormData)
       .then((res) => {
         dispatch(
@@ -103,107 +118,32 @@ const ChangeProfile = ({ styles }) => {
         errorHandler(err?.status, err?.data, dispatch);
       });
   };
-
-  const ButtonUI = () => {
-    return (
-      <>
-        {changeBtnState ? (
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            onClick={() => setChangeBtnState(false)}
-            sx={styles.editProfileBtn}
-          >
-            {"Edit Profile"}
-          </LoadingButton>
-        ) : (
-          <CustomButton text={"Update Profile"} removeMargin={true} />
-        )}
-      </>
-    );
-  };
-
   return (
-    <Box sx={styles.parentBox}>
-      <Box sx={styles.childBox}>
-        <Box sx={styles.subChildBox1}>
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          >
-            <Avatar
-              src={selectedFile}
-              alt="user Edit Profile"
-              sx={styles.editProfileAvatar}
-            />
-          </StyledBadge>
-        </Box>
-        <Box sx={styles.subChildBox1}>
-          <IconButton
-            aria-label="upload picture"
-            component="label"
-            disabled={changeBtnState}
-          >
-            <input
-              hidden
-              name="profileImage"
-              accept="image/*"
-              type="file"
-              onChange={handleFileInputChange}
-              disabled={changeBtnState}
-            />
-            <Tooltip title="Select Image" placement="left">
-              <PhotoCamera sx={styles.imageIcon} />
-            </Tooltip>
-          </IconButton>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ mt: 1, padding: "0px!important" }}
+    >
+      <PersonalInfo
+        cookies={cookies}
+        formData={formData}
+        setFormData={setFormData}
+        handleFileInputChange={handleFileInputChange}
+        handleClear={handleClear}
+        selectedFile={selectedFile}
+      />
+      <EducationalInfo
+        cookies={cookies}
+        formData={formData}
+        setFormData={setFormData}
+      />
 
-          <IconButton onClick={handleClear} disabled={changeBtnState}>
-            <Tooltip title="Remove Image" placement="right">
-              <HighlightOff sx={styles.imageIcon} />
-            </Tooltip>
-          </IconButton>
-        </Box>
-        <CustomDivider title={"Edit your profile"} />
-        <Box component="form" sx={styles.subChildBox2} onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
-              <CustomTextField
-                label={"First name"}
-                name="firstName"
-                value={formData.firstName}
-                setFormData={setFormData}
-                type="text"
-                disabled={changeBtnState}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <CustomTextField
-                label={"Last name"}
-                name="lastName"
-                value={formData.lastName}
-                setFormData={setFormData}
-                type="text"
-                disabled={changeBtnState}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <CustomTextField
-                label={"Email"}
-                name="email"
-                value={formData.email}
-                setFormData={setFormData}
-                type="email"
-                disabled={true}
-              />
-            </Grid>
-            {matches && <Grid item xs={false} sm={false} md={4} />}
-            <Grid item xs={12} sm={6} md={4}>
-              <ButtonUI />
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
+      <AddressInfo
+        cookies={cookies}
+        formData={formData}
+        setFormData={setFormData}
+      />
+      <FormButton cookies={cookies} text={"Update Profile"} />
     </Box>
   );
 };

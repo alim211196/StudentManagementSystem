@@ -3,6 +3,7 @@ import api from "../api";
 
 //create student
 export const CREATE_STUDENT = (formData) => {
+  console.log(formData);
   return new Promise((resolve, reject) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}${api.addStudent}`, formData)
@@ -138,6 +139,83 @@ export const DELETE_COMMENT = (id) => {
   return new Promise((resolve, reject) => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}${api.deleteComment}${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          resolve(res);
+        } else {
+          reject(res.error);
+        }
+      })
+      .catch((err) => {
+        reject(err.response);
+      });
+  });
+};
+
+
+//get courses
+export const GET_COURSES = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}${api.getCourses}`)
+      .then((res) => {
+        if (res.status === 200) {
+          resolve(res);
+        } else {
+          reject(res.error);
+        }
+      })
+      .catch((err) => {
+        reject(err.response);
+      });
+  });
+};
+
+
+  //get Resources quantity
+export const GET_RESOURCE = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}${api.getResources}`)
+      .then((res) => {
+        if (res.status === 200) {
+          resolve(res);
+        } else {
+          reject(res.error);
+        }
+      })
+      .catch((err) => {
+        reject(err.response);
+      });
+  });
+};
+
+
+
+  //get Recent Entry of students, teachers and massages
+export const GET_RECENT_ENTRY = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}${api.getRecentEntry}`)
+      .then((res) => {
+        if (res.status === 200) {
+          resolve(res);
+        } else {
+          reject(res.error);
+        }
+      })
+      .catch((err) => {
+        reject(err.response);
+      });
+  });
+};
+
+
+ //get teachers and students birthday
+export const GET_BIRTHDAY = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}${api.getBirthday}`)
       .then((res) => {
         if (res.status === 200) {
           resolve(res);

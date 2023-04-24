@@ -43,5 +43,17 @@ const api = {
 
   //delete comment
   deleteComment: "/students/contact/delete-comment/",
+
+  //get courses
+  getCourses: "/students/courses",
+
+  //get Resources quantity
+  getResources: "/resource-quantity",
+
+  //get recent entry
+  getRecentEntry: "/get-recent-entry",
+
+  //get recent entry
+  getBirthday: "/get-birthday",
 };
 export default api;

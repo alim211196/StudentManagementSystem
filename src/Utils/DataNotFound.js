@@ -1,13 +1,13 @@
-import { Info } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import React from 'react'
-import CustomProgressBar from './CustomProgressBar';
+import { Info } from "@mui/icons-material";
+import { Box, Typography } from "@mui/material";
+import React from "react";
+import CustomProgressBar from "./CustomProgressBar";
 import { useSelector } from "react-redux";
-import { useCookies } from 'react-cookie';
-import { DarkFFF } from './CommonCookies';
+import { useCookies } from "react-cookie";
+import { DarkFFF } from "./CommonCookies";
 const DataNotFound = () => {
-        const progress = useSelector((state) => state.progressBar);
-          const [cookies] = useCookies(["theme"]);
+  const progress = useSelector((state) => state.progressBar);
+  const [cookies] = useCookies(["theme"]);
   return (
     <Box
       sx={{
@@ -22,12 +22,12 @@ const DataNotFound = () => {
       ) : (
         <>
           {" "}
-          <Info sx={{ fontSize: 60, color: "#DC143C" }} />
+          <Info sx={{ fontSize: 60, color: "#1976D2" }} />
           <Typography
             variant="h5"
             align="center"
             mt={2}
-            sx={{ color: DarkFFF(cookies)}}
+            sx={{ color: DarkFFF(cookies) }}
           >
             No data found
           </Typography>
@@ -35,6 +35,6 @@ const DataNotFound = () => {
       )}
     </Box>
   );
-}
+};
 
-export default DataNotFound
+export default DataNotFound;

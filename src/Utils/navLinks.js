@@ -1,50 +1,60 @@
-import homepage from "../images/homepage.png";
-import view from "../images/view.png";
-import editUser from "../images/editUser.png";
-import viewMsg from '../images/viewMsg.png'
-import user from "../images/admin.png";
-import userReg from "../images/Register.png";
+import {
+  HowToReg,
+  Dashboard,
+  PersonAddAlt1,
+  PersonSearch,
+  AccountCircle,
+  Sms,
+  Home,
+  Login,
+} from "@mui/icons-material";
 export const navLinks = [
   {
     title: "Dashboard",
     path: "/dashboard",
-    icon: homepage,
+    icon: <Dashboard />,
     LoggedIn: true,
   },
   {
-    title: "View Records",
-    path: "/view-records",
-    icon: view,
+    title: "Add Student",
+    path: "/add-student",
+    icon: <PersonAddAlt1 />,
+    LoggedIn: true,
+  },
+  {
+    title: "View Students",
+    path: "/view-students",
+    icon: <PersonSearch />,
     LoggedIn: true,
   },
   {
     title: "Edit Profile",
     path: "/edit-profile",
-    icon: editUser,
+    icon: <AccountCircle />,
     LoggedIn: true,
   },
   {
-    title: "View Messages",
-    path: "/view-messages",
-    icon: viewMsg,
+    title: "Messages",
+    path: "/messages",
+    icon: <Sms />,
     LoggedIn: true,
   },
   {
     title: "Home",
     path: "/",
-    icon: homepage,
+    icon: <Home />,
     LoggedIn: false,
   },
   {
     title: "Sign in",
     path: "/sign_in",
-    icon: user,
+    icon: <Login />,
     LoggedIn: false,
   },
   {
     title: "Sign up",
     path: "/sign_up",
-    icon: userReg,
+    icon: <HowToReg />,
     LoggedIn: false,
   },
 ];

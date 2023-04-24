@@ -11,7 +11,12 @@ function App() {
       fallback={
         <div>
           {" "}
-          <LinearProgress sx={{background:"#DC143C"}} />
+          <LinearProgress
+            sx={{
+              background:
+                "radial-gradient(circle at center, #1976D2 , #292929)",
+            }}
+          />
         </div>
       }
     >

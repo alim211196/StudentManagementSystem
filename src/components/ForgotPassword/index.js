@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import CustomTextField from "../../Utils/CustomTextField";
-import ForgotPass from "../../images/forgotPass.png";
 import BoxWrapper from "../../Utils/BoxWrapper";
 import { FORGOT_PASSWORD } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
@@ -54,7 +53,6 @@ export default function ForgotPassword() {
   return (
     <BoxWrapper
       text={"Forgot password"}
-      icon={ForgotPass}
       label={"forgot password"}
       handleSubmit={handleSubmit}
       linkText={"Sign in"}
@@ -62,6 +60,7 @@ export default function ForgotPassword() {
       linkText1={"Sign Up"}
       path1={"/sign_up"}
       cookies={cookies}
+      maxWidth={"xs"}
     >
       <CustomTextField
         label={"Email Address"}

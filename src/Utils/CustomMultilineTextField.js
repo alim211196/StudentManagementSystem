@@ -1,7 +1,9 @@
 import React, { memo } from "react";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import CustomTheme from "./CustomTheme";
 import { handleChange } from "./HandleChange";
+import { useCookies } from "react-cookie";
+import { DarkFFF } from "./CommonCookies";
 const CustomMultilineTextField = ({
   label,
   name,
@@ -10,14 +12,18 @@ const CustomMultilineTextField = ({
   disabled,
   setFormData,
 }) => {
+     const [cookies] = useCookies(["theme"]);
   return (
     <CustomTheme>
+      <Typography sx={{ color: DarkFFF(cookies), fontWeight: "500" }}>
+        {label} <span style={{ color: "red", marginLeft: 5 }}>*</span>
+      </Typography>
       <TextField
         margin="dense"
         required
         fullWidth
         id="outlined-basic"
-        label={label}
+        placeholder={`Enter ${name}`}
         variant="outlined"
         size="small"
         name={name}
@@ -25,8 +31,8 @@ const CustomMultilineTextField = ({
         onChange={(e) => handleChange(e, setFormData)}
         type={type}
         disabled={disabled}
-                  multiline
-          rows={4}
+        multiline
+        rows={4}
       />
     </CustomTheme>
   );

@@ -1,7 +1,7 @@
 import { Dark00, Dark00FF, DarkFFF } from "../../Utils/CommonCookies";
 
 export const DrawerStyle = (cookies, matches, upDown, open) => {
-  const path = ["/view-records", "/view-messages"].includes(
+  const path = ["/view-students", "/messages"].includes(
     window.location.pathname
   );
 
@@ -10,7 +10,7 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
   const paddingStyle = () => {
     if (!matches && upDown) {
       if (path) {
-        return "7rem 1rem 0rem";
+        return "8rem 1rem 0rem";
       } else {
         return CommonStyle;
       }
@@ -46,13 +46,15 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
     iconBtnAvatar = {
       width: 28,
       height: 28,
+      color: "#fff",
     },
     dynamicList = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
       height: "100vh",
-      background: "radial-gradient(circle at center, #DC143C , #292929)",
+      background: "#292929",
+      borderRight: "1px solid #0D47A1",
     },
     dynamicListBox = {
       paddingTop: !matches && upDown ? "3rem" : 0,
@@ -78,6 +80,12 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
       minHeight: 48,
       justifyContent: open ? "initial" : "center",
       px: 2.5,
+      "&.Mui-selected": {
+        background: "radial-gradient(circle at center, #1976D2 , #292929)",
+        ":hover": {
+          background: "radial-gradient(circle at center, #1976D2 , #292929)",
+        },
+      },
     },
     innerAvatar = {
       minWidth: 0,
@@ -85,23 +93,26 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
       justifyContent: "center",
       width: 30,
       height: 30,
+      color: "#fff",
     },
     listItemText = {
       opacity: open ? 1 : 0,
       color: "#fff",
+      paddingBottom: "inherit",
     },
     appBar = {
-      background: "radial-gradient(circle at center, #DC143C , #292929)",
+      background: "radial-gradient(circle at center, #1976D2 , #292929)",
       boxShadow: "none",
     },
     toolbarIconBtn = {
       marginRight: 5,
-      color: "crimson",
+      color: "#fff",
       ...(open && { display: "none" }),
     },
     toolbarIconBtnAvatar = {
       width: 30,
       height: 30,
+      color: "#fff",
     },
     innerBox3 = {
       width: "100%",

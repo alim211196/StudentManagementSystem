@@ -4,17 +4,20 @@ export const ContactStyle = (cookies) => {
   const typo3 = {
       margin: 0,
       fontWeight: "bold",
-      fontSize: "24px",
+      fontSize: "20px",
       color: DarkFFF(cookies),
     },
     typo4 = {
       margin: 0,
       fontWeight: 400,
-      fontSize: "18px",
+      fontSize: "16px",
       color: DarkFFF(cookies),
     },
     MainContainer1 = {
       margin: "20px 0px",
+      pl: 2,
+      pr: 2,
+      pt: 2,
     },
     normalBox = {
       height: "100vh",

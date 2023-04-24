@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import Menu from "../../../images/menu.png";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar, Tooltip } from "@mui/material";
 import { AppBar, StyledBadge } from "../../../Utils/stylingMethods.js";
 import { avatarName } from "../../../Utils/AvatarName";
@@ -31,6 +31,7 @@ const DrawerAppBar = ({
   DialogClose,
   setDialogOpen,
   cookies,
+  flag,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const MenuOpen = Boolean(anchorEl);
@@ -41,9 +42,7 @@ const DrawerAppBar = ({
     setAnchorEl(null);
   };
   const searchCondition = () => {
-    if (
-      ["/view-records", "/view-messages"].includes(window.location.pathname)
-    ) {
+    if (["/view-students", "/messages"].includes(window.location.pathname)) {
       return true;
     } else {
       return false;
@@ -76,12 +75,7 @@ const DrawerAppBar = ({
             edge="start"
             sx={styles.toolbarIconBtn}
           >
-            <Avatar
-              src={Menu}
-              variant="square"
-              alt="menu"
-              sx={styles.toolbarIconBtnAvatar}
-            />
+            <MenuIcon sx={styles.toolbarIconBtnAvatar} />
           </IconButton>
         )}
         <Box sx={styles.innerBox3}>
@@ -89,19 +83,20 @@ const DrawerAppBar = ({
             Student Management System
           </Typography>
           <Box sx={styles.childBox1}>
-            {matches && searchCondition() && (
-              <SearchAppBar
-                setQuery={setQuery}
-                query={query}
-                cookies={cookies}
-                matches={matches}
-              />
-            )}
+            {matches &&
+              searchCondition() &&
+              data?.length > 0 &&
+              flag === false && (
+                <SearchAppBar
+                  setQuery={setQuery}
+                  query={query}
+                  cookies={cookies}
+                  matches={matches.toString()}
+                />
+              )}
             {matches && (
               <Tooltip
-                title={`${userData?.firstName && userData?.firstName}${" "}${
-                  userData?.lastName && userData?.lastName
-                }`}
+                title={`${userData?.fullname && userData?.fullname}`}
                 placement="bottom"
               >
                 <IconButton onClick={() => handleNavigate()}>
@@ -122,11 +117,7 @@ const DrawerAppBar = ({
                         ) : (
                           <>
                             {avatarName(
-                              `${
-                                userData?.firstName && userData?.firstName
-                              }${" "}${
-                                userData?.lastName && userData?.lastName
-                              }`
+                              `${userData?.fullname && userData?.fullname}`
                             )}
                           </>
                         )}
@@ -145,18 +136,13 @@ const DrawerAppBar = ({
                 aria-haspopup="true"
                 aria-expanded={MenuOpen ? "true" : undefined}
               >
-                <Avatar
-                  src={Menu}
-                  variant="square"
-                  alt="menu"
-                  sx={{ width: 24, height: 24 }}
-                />
+                <MenuIcon sx={styles.toolbarIconBtnAvatar} />
               </IconButton>
             )}
           </Box>
         </Box>
       </Toolbar>
-      {!matches && upDown && data?.length > 0 && (
+      {!matches && upDown && data?.length > 0 && flag === false && (
         <Box sx={styles.searchToolbar}>
           {searchCondition() && (
             <SearchAppBar
@@ -188,6 +174,7 @@ const DrawerAppBar = ({
         data={data}
         userData={userData}
         handleNavigate={handleNavigate}
+        cookies={cookies}
       />
     </AppBar>
   );

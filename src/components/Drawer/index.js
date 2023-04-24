@@ -14,15 +14,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../app/reducer/getUserProfile";
 import LowerIcons from "./DrawerSubComponents/LowerIcons";
 import DrawerAppBar from "./DrawerSubComponents/DrawerAppBar";
-import ArrowBackIcon from "../../images/Back.png";
-import { Avatar, useMediaQuery } from "@mui/material";
-import logout from "../../images/logout.png";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { Fab, useMediaQuery } from "@mui/material";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { GET_USER } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
 import ModeComp from "../../Utils/ModeComp";
 import { DrawerStyle } from "./styles";
 import CustomTheme from "../../Utils/CustomTheme";
-const MiniDrawer = ({children,setQuery,query,data}) => {
+const MiniDrawer = ({ children, setQuery, query, data, flag }) => {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.getUserProfile);
   const matches = useMediaQuery("(min-width:600px)");
@@ -101,12 +101,13 @@ const MiniDrawer = ({children,setQuery,query,data}) => {
           setUpDown={setUpDown}
           styles={styles}
           matches={matches}
-          icon={logout}
+          icon={<PowerSettingsNewIcon />}
           logoutFn={logoutFn}
           dialogOpen={dialogOpen}
           DialogClose={handleClose}
           setDialogOpen={setDialogOpen}
           cookies={cookies}
+          flag={flag}
         />
         <Drawer
           variant="permanent"
@@ -116,14 +117,8 @@ const MiniDrawer = ({children,setQuery,query,data}) => {
           <DrawerHeader sx={styles.drawerHeader1}>
             <Box sx={styles.innerBox1}>
               <IconButton onClick={handleDrawerClose} sx={styles.iconBtn}>
-                <Avatar
-                  src={ArrowBackIcon}
-                  variant="square"
-                  alt="back"
-                  sx={styles.iconBtnAvatar}
-                />
+                <ChevronLeftIcon sx={styles.iconBtnAvatar} />
               </IconButton>
-              <ModeComp />
             </Box>
           </DrawerHeader>
           <List sx={styles.dynamicList}>
@@ -143,7 +138,7 @@ const MiniDrawer = ({children,setQuery,query,data}) => {
                 })}
             </Box>
             <LowerIcons
-              icon={logout}
+              icon={<PowerSettingsNewIcon />}
               text={"Logout"}
               altText={"logout"}
               open={open}
@@ -163,6 +158,26 @@ const MiniDrawer = ({children,setQuery,query,data}) => {
           text={"Are your sure you want to exit?"}
         />
       </Box>
+      {matches && (
+        <Fab
+          sx={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle at center, #1976D2 , #292929)",
+            color: "white",
+            width: "50px",
+            height: "50px",
+            "&:hover": {
+              background:
+                "radial-gradient(circle at center, #1976D2 , #292929)",
+            },
+          }}
+        >
+          <ModeComp />
+        </Fab>
+      )}
     </CustomTheme>
   );
 };

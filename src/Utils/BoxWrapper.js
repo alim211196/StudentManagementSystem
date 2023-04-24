@@ -4,10 +4,9 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import CustomTheme from "./CustomTheme";
 import Header from "./Header";
-import TitleUI from "./TitleUI";
-import { Grid } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import LinkComp from "./LinkComp";
-import { Dark00 } from "./CommonCookies";
+import { Dark00, Dark00FF } from "./CommonCookies";
 const BoxWrapper = ({
   cookies,
   text,
@@ -19,6 +18,7 @@ const BoxWrapper = ({
   linkText,
   path,
   path1,
+  maxWidth,
 }) => {
   return (
     <CustomTheme>
@@ -30,20 +30,32 @@ const BoxWrapper = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: Dark00(cookies),
+          background: Dark00(cookies),
         }}
       >
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth={maxWidth}>
           <CssBaseline />
-          <Box
+          <Paper
+            elevation={0}
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              p: 4,
+              background: Dark00FF(cookies),
             }}
           >
             {" "}
-            <TitleUI text={text} icon={icon} label={label} />
+            <Typography
+              sx={{
+                color: cookies.theme === "dark" ? "#fff" : "#1976D2",
+                fontSize: "32px",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              {text}
+            </Typography>
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -61,23 +73,15 @@ const BoxWrapper = ({
               justifyContent={linkText1 ? "space-between" : "center"}
             >
               <Grid item>
-                <LinkComp
-                  text={linkText}
-                  path={path}
-                  cookies={cookies}
-                />
+                <LinkComp text={linkText} path={path} cookies={cookies} />
               </Grid>
               {linkText1 && (
                 <Grid item>
-                  <LinkComp
-                    text={linkText1}
-                    path={path1}
-                    cookies={cookies}
-                  />
+                  <LinkComp text={linkText1} path={path1} cookies={cookies} />
                 </Grid>
               )}
             </Grid>
-          </Box>
+          </Paper>
         </Container>
       </Box>
     </CustomTheme>

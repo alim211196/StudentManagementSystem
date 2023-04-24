@@ -6,7 +6,6 @@ import { openSnackbar } from "../../app/reducer/Snackbar";
 import { useCookies } from "react-cookie";
 import CustomTextField from "../../Utils/CustomTextField";
 import CustomPassword from "../../Utils/CustomPassword";
-import user from "../../images/admin.png";
 import BoxWrapper from "../../Utils/BoxWrapper";
 import { USER_LOGIN } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
@@ -56,12 +55,12 @@ export default function SignIn() {
   return (
     <BoxWrapper
       text={"Sign in"}
-      icon={user}
       label={"Sign in"}
       handleSubmit={handleSubmit}
       linkText={"Forgot password"}
       path={"/forgot-password"}
       cookies={cookies}
+      maxWidth={"xs"}
     >
       <CustomTextField
         label={"Email Address"}
@@ -78,7 +77,7 @@ export default function SignIn() {
         setFormData={setFormData}
         cookies={cookies}
       />
-      <CustomButton text={"Sign In"} />
+      <CustomButton text={"Submit"} />
     </BoxWrapper>
   );
 }

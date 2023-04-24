@@ -1,14 +1,14 @@
 import React, { memo } from "react";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { handleChange } from "./HandleChange";
 import CustomTheme from "./CustomTheme";
-import { DarkFFF } from "./CommonCookies";
+import { DarkFFF, DarkFF4F } from "./CommonCookies";
+import { Typography } from "@mui/material";
 const CustomPassword = ({
   label,
   name,
@@ -25,6 +25,9 @@ const CustomPassword = ({
   };
   return (
     <CustomTheme>
+      <Typography sx={{ color: DarkFF4F(cookies), fontWeight: "500" }}>
+        {label} <span style={{ color: "red", marginLeft: 5 }}>*</span>
+      </Typography>
       <FormControl
         variant="outlined"
         margin="dense"
@@ -32,27 +35,24 @@ const CustomPassword = ({
         fullWidth
         required
       >
-        <InputLabel>{label}</InputLabel>
         <OutlinedInput
-          // id="outlined-adornment-password"
           type={showPassword ? "text" : "password"}
           name={name}
+          placeholder={`Enter ${name}`}
           value={value}
           onChange={(e) => handleChange(e, setFormData)}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
-                //   aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
-                sx={{ color:DarkFFF(cookies)}}
+                sx={{ color: DarkFFF(cookies) }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           }
-          label={label}
         />
       </FormControl>
     </CustomTheme>

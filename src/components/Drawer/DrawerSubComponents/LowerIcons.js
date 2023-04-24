@@ -3,11 +3,18 @@ import {
   ListItemButton,
   Tooltip,
   ListItemText,
-  Avatar,
+  ListItemIcon,
 } from "@mui/material";
 import React, { memo } from "react";
 import CustomTheme from "../../../Utils/CustomTheme";
-const LowerIcons = ({ icon, text, altText, open, setDialogOpen, styles }) => {
+const LowerIcons = ({
+  icon,
+  text,
+  open,
+  setDialogOpen,
+  styles,
+  dialogOpen,
+}) => {
   return (
     <CustomTheme>
       <ListItem disablePadding sx={styles.dynamicListItem}>
@@ -16,13 +23,9 @@ const LowerIcons = ({ icon, text, altText, open, setDialogOpen, styles }) => {
           onClick={() => setDialogOpen(true)}
         >
           <Tooltip title={!open && text} placement="right">
-            <Avatar
-              src={icon}
-              variant="square"
-              alt={altText}
-              sx={styles.innerAvatar}
-            />
+            <ListItemIcon sx={styles.innerAvatar}>{icon}</ListItemIcon>
           </Tooltip>
+
           <ListItemText primary={text} sx={styles.listItemText} />
         </ListItemButton>
       </ListItem>

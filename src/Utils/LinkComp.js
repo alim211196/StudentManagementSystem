@@ -8,7 +8,10 @@ const LinkComp = ({ path, text, cookies }) => {
   return (
     <Link
       sx={{
-        color: DarkFFF(cookies),
+        color:
+          text === "Already have an account? Sign in"
+            ? "#FFF"
+            : DarkFFF(cookies),
       }}
       component="button"
       variant="body2"

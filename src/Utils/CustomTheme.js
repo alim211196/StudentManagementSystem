@@ -2,13 +2,14 @@ import React, { memo } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useCookies } from "react-cookie";
 import {
-  Dark4F,
+  Dark4F29,
   DarkFFF,
   DarkFF4F,
   Dark00,
   DarkBorder,
   DarkD4D4,
   DarkThin4f4f,
+  Dark00FF,
 } from "./CommonCookies";
 import { useMediaQuery } from "@mui/material";
 const CustomTheme = ({ children }) => {
@@ -20,7 +21,7 @@ const CustomTheme = ({ children }) => {
         main: "#292929",
       },
       secondary: {
-        main: "#DC143C",
+        main: "#1976D2",
       },
     },
     components: {
@@ -32,18 +33,18 @@ const CustomTheme = ({ children }) => {
           root: {
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                color: Dark4F(cookies),
-                borderColor: Dark4F(cookies), // change border color
+                color: Dark4F29(cookies),
+                borderColor: Dark4F29(cookies), // change border color
               },
             },
             "& .MuiOutlinedInput-root.Mui-disabled": {
               "& fieldset": {
-                color: Dark4F(cookies),
-                borderColor: Dark4F(cookies), // change border color
+                color: Dark4F29(cookies),
+                borderColor: Dark4F29(cookies), // change border color
               },
             },
             "& .MuiOutlinedInput-root:hover fieldset": {
-              borderColor: Dark4F(cookies),
+              borderColor: Dark4F29(cookies),
             },
             "& .MuiOutlinedInput-root.Mui-disabled:hover fieldset": {
               borderColor: DarkFFF(cookies),
@@ -72,12 +73,12 @@ const CustomTheme = ({ children }) => {
           root: {
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                color: Dark4F(cookies),
-                borderColor: Dark4F(cookies), // change border color
+                color: Dark4F29(cookies),
+                borderColor: Dark4F29(cookies), // change border color
               },
             },
             "& .MuiOutlinedInput-root:hover fieldset": {
-              borderColor: Dark4F(cookies),
+              borderColor: Dark4F29(cookies),
             },
             "& .MuiOutlinedInput-input": {
               color: DarkFF4F(cookies),
@@ -140,7 +141,7 @@ const CustomTheme = ({ children }) => {
       MuiChip: {
         styleOverrides: {
           root: {
-            background: Dark4F(cookies),
+            background: Dark4F29(cookies),
             "& .MuiChip-label": {
               color: DarkFFF(cookies),
             },
@@ -168,9 +169,9 @@ const CustomTheme = ({ children }) => {
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
-            color: "#DC143C",
-            backgroundColor: "#fff",
-            border: "1px solid #DC143C",
+            color: "#1976D2",
+            backgroundColor: Dark00FF(cookies),
+            border: "1px solid #1976D2",
             fontWeight: "bolder",
           },
         },

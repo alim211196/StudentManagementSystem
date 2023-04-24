@@ -22,6 +22,8 @@ const Home = lazy(() => import("../components/Home"));
 
 const ViewMessage = lazy(() => import("../components/ViewMessage"));
 
+const AddStudents = lazy(() => import("../components/AddStudents"));
+
 const RouteIndex = () => {
   return (
     <Router>
@@ -29,9 +31,10 @@ const RouteIndex = () => {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/" element={<PrivateRoute />}>
           <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/view-records" element={<View />} />
+          <Route exact path="/add-student" element={<AddStudents />} />
+          <Route exact path="/view-students" element={<View />} />
           <Route exact path="/edit-profile" element={<EditProfile />} />
-          <Route exact path="/view-messages" element={<ViewMessage />} />
+          <Route exact path="/messages" element={<ViewMessage />} />
         </Route>
         <Route exact path="/" element={<PublicRoute />}>
           <Route exact path="/sign_in" element={<Login />} />
