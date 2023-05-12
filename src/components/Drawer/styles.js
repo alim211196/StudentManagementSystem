@@ -1,7 +1,7 @@
 import { Dark00, Dark00FF, DarkFFF } from "../../Utils/CommonCookies";
 
 export const DrawerStyle = (cookies, matches, upDown, open) => {
-  const path = ["/view-students", "/messages"].includes(
+  const path = ["/manage-students", "/messages"].includes(
     window.location.pathname
   );
 
@@ -49,12 +49,13 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
       color: "#fff",
     },
     dynamicList = {
+      pt: 0,
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
       height: "100vh",
-      background: "#292929",
-      borderRight: "1px solid #0D47A1",
+      background: cookies.theme === "dark" ? "#4f4f4f" : "#fff",
+      // borderRight: cookies.theme === "dark" && "1px solid #1976D2",
     },
     dynamicListBox = {
       paddingTop: !matches && upDown ? "3rem" : 0,
@@ -81,9 +82,15 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
       justifyContent: open ? "initial" : "center",
       px: 2.5,
       "&.Mui-selected": {
-        background: "radial-gradient(circle at center, #1976D2 , #292929)",
+        background:
+          cookies.theme === "dark"
+            ? "#292929"
+            : "#E7EBF0",
         ":hover": {
-          background: "radial-gradient(circle at center, #1976D2 , #292929)",
+          background:
+            cookies.theme === "dark"
+              ? "#292929"
+              : "#E7EBF0",
         },
       },
     },
@@ -93,12 +100,13 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
       justifyContent: "center",
       width: 30,
       height: 30,
-      color: "#fff",
+      color: cookies.theme === "dark" ? "#fff" : "#1976D2",
+      alignItems: "center",
     },
     listItemText = {
       opacity: open ? 1 : 0,
-      color: "#fff",
-      paddingBottom: "inherit",
+      color: cookies.theme === "dark" ? "#fff" : "#1976D2",
+      pb: 0,
     },
     appBar = {
       background: "radial-gradient(circle at center, #1976D2 , #292929)",
@@ -122,6 +130,7 @@ export const DrawerStyle = (cookies, matches, upDown, open) => {
     },
     titleTypo = {
       color: "#fff",
+      fontSize: "24px",
     },
     childBox1 = {
       display: "flex",

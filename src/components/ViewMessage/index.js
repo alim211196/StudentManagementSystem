@@ -77,7 +77,13 @@ const ViewMessage = () => {
   );
   return (
     <CustomTheme>
-      <MiniDrawer setQuery={setQuery} query={query} data={data} flag={false}>
+      <MiniDrawer
+        setQuery={setQuery}
+        query={query}
+        data={data}
+        flag={false}
+        value={1}
+      >
         <Container component="main" maxWidth="xl">
           <CssBaseline />
           <TitleBox

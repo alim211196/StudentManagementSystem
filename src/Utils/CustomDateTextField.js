@@ -4,8 +4,8 @@ import CustomTheme from "./CustomTheme";
 import { handleChange } from "./HandleChange";
 import { DarkFF4F } from "./CommonCookies";
 import { useCookies } from "react-cookie";
-const CustomDatePicker = ({ label, name, value, setFormData }) => {
-     const [cookies] = useCookies(["theme"]);
+const CustomDateTextField = ({ label, name, value, setFormData }) => {
+  const [cookies] = useCookies(["theme"]);
   return (
     <CustomTheme>
       <Typography sx={{ color: DarkFF4F(cookies), fontWeight: "500" }}>
@@ -33,4 +33,4 @@ const CustomDatePicker = ({ label, name, value, setFormData }) => {
   );
 };
 
-export default memo(CustomDatePicker);
+export default memo(CustomDateTextField);

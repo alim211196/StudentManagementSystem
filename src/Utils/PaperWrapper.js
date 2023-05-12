@@ -7,7 +7,7 @@ const PaperWrapper = ({ children, cookies, boxBGColor, icon, text }) => {
     <Paper
       elevation={3}
       sx={{
-        mt: 3,
+        mb: 3,
         background: Dark00FF(cookies),
         border: CardBorder(cookies, boxBGColor),
         padding: "0px !important",

@@ -8,7 +8,6 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import {
   CardBorder,
   Dark00FF,
-  DarkB5,
   DarkFFF,
 } from "../../Utils/CommonCookies";
 const RecentMessageList = ({
@@ -18,6 +17,7 @@ const RecentMessageList = ({
   bgColor,
   data,
   loading,
+  userData,
 }) => {
   return (
     <Grid item xs={12} sm={12} md={8} lg={8}>
@@ -35,7 +35,12 @@ const RecentMessageList = ({
           {icon}
           <Typography>{title}</Typography>
         </Box>
-        {data && data.length > 0 ? (
+        {data &&
+        data.filter(
+          (i) =>
+            i?.course === userData?.course &&
+            i?.course_year === userData?.course_year
+        ).length > 0 ? (
           <Paper
             elevation={0}
             sx={{
@@ -59,58 +64,64 @@ const RecentMessageList = ({
                 width: "100%",
               }}
             >
-              {data.map((item, index) => {
-                return (
-                  <Box key={index}>
-                    <ListItem alignItems="flex-start">
-                      <ListItemAvatar>
-                        <Avatar
-                          src={item?.profileImage}
-                          sx={{ border: `1px solid ${bgColor}` }}
-                        />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <Typography
-                            sx={{
-                              fontWeight: "bold",
-                              textTransform: "capitalize",
-                              color: DarkFFF(cookies),
-                            }}
-                          >
-                            {item?.fullname}
-                          </Typography>
-                        }
-                        secondary={
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
+              {data
+                .filter(
+                  (i) =>
+                    i?.course === userData?.course &&
+                    i?.course_year === userData?.course_year
+                )
+                .map((item, index) => {
+                  return (
+                    <Box key={index}>
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar
+                            src={item?.profileImage}
+                            sx={{ border: `1px solid ${bgColor}` }}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={
                             <Typography
                               sx={{
-                                display: "inline",
-                                color: DarkFFF(cookies),
                                 fontWeight: "bold",
-                              }}
-                              component="span"
-                              variant="body2"
-                            >
-                              {item?.email}
-                            </Typography>{" "}
-                            <Typography
-                              sx={{
                                 textTransform: "capitalize",
                                 color: DarkFFF(cookies),
                               }}
-                              component="p"
                             >
-                              {"-"} {item?.comment}{" "}
+                              {item?.fullname}
                             </Typography>
-                          </Box>
-                        }
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </Box>
-                );
-              })}
+                          }
+                          secondary={
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <Typography
+                                sx={{
+                                  display: "inline",
+                                  color: DarkFFF(cookies),
+                                  fontWeight: "bold",
+                                }}
+                                component="span"
+                                variant="body2"
+                              >
+                                {item?.email}
+                              </Typography>{" "}
+                              <Typography
+                                sx={{
+                                  textTransform: "capitalize",
+                                  color: DarkFFF(cookies),
+                                }}
+                                component="p"
+                              >
+                                {"-"} {item?.comment}{" "}
+                              </Typography>
+                            </Box>
+                          }
+                        />
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                    </Box>
+                  );
+                })}
             </List>
           </Paper>
         ) : (
@@ -135,12 +146,13 @@ const RecentMessageList = ({
               },
             }}
           >
-              {loading ? (
+            {loading ? (
               <CircularProgress color="inherit" />
             ) : (
-            <Typography sx={{ color: DarkFFF(cookies) }}>
-              Data not found
-            </Typography>)}
+              <Typography sx={{ color: DarkFFF(cookies) }}>
+                Data not found
+              </Typography>
+            )}
           </Paper>
         )}
       </Box>

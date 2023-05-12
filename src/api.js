@@ -55,5 +55,17 @@ const api = {
 
   //get recent entry
   getBirthday: "/get-birthday",
+
+  //add attendance
+  addAttendance: "/students/add-attendance",
+
+  //get attendance
+  getAttendance: "/students/get-attendance",
+
+  //update attendance
+  updateAttendance: "/students/update-attendance/",
+
+  //delete attendance
+  deleteAttendance: "/students/delete-attendance/",
 };
 export default api;

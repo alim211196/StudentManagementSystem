@@ -1,12 +1,12 @@
 import {
   HowToReg,
   Dashboard,
-  PersonAddAlt1,
-  PersonSearch,
-  AccountCircle,
+  People,
+  ManageAccounts,
   Sms,
   Home,
   Login,
+  CalendarMonth,
 } from "@mui/icons-material";
 export const navLinks = [
   {
@@ -16,27 +16,27 @@ export const navLinks = [
     LoggedIn: true,
   },
   {
-    title: "Add Student",
-    path: "/add-student",
-    icon: <PersonAddAlt1 />,
+    title: "Manage Students",
+    path: "/manage-students",
+    icon: <People />,
     LoggedIn: true,
   },
   {
-    title: "View Students",
-    path: "/view-students",
-    icon: <PersonSearch />,
-    LoggedIn: true,
-  },
-  {
-    title: "Edit Profile",
-    path: "/edit-profile",
-    icon: <AccountCircle />,
+    title: "Manage Account",
+    path: "/manage-account",
+    icon: <ManageAccounts />,
     LoggedIn: true,
   },
   {
     title: "Messages",
     path: "/messages",
     icon: <Sms />,
+    LoggedIn: true,
+  },
+  {
+    title: "Manage Attendance",
+    path: "/manage-attendance",
+    icon: <CalendarMonth />,
     LoggedIn: true,
   },
   {

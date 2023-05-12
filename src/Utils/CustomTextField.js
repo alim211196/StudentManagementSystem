@@ -12,7 +12,23 @@ const CustomTextField = ({
   disabled,
   setFormData,
 }) => {
-   const [cookies] = useCookies(["theme"]);
+  const [cookies] = useCookies(["theme"]);
+
+  const styleForTextFiled = () => {
+    if (name === "course") {
+      return {
+        "& .MuiOutlinedInput-input": {
+          textTransform: "uppercase",
+        },
+      };
+    } else if (name === "course_year") {
+      return {
+        "& .MuiOutlinedInput-input": {
+          textTransform: "capitalize",
+        },
+      };
+    }
+  };
   return (
     <CustomTheme>
       <Typography sx={{ color: DarkFFF(cookies), fontWeight: "500" }}>
@@ -22,7 +38,7 @@ const CustomTextField = ({
         margin="dense"
         required
         fullWidth
-        placeholder={`Enter ${name}`}
+        placeholder={`Enter ${name==="roll_no" ? "roll no" :name}`}
         id="outlined-basic"
         variant="outlined"
         size="small"
@@ -31,6 +47,7 @@ const CustomTextField = ({
         onChange={(e) => handleChange(e, setFormData)}
         type={type}
         disabled={disabled}
+        sx={styleForTextFiled()}
       />
     </CustomTheme>
   );

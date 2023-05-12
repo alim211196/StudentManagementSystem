@@ -3,7 +3,6 @@ import api from "../api";
 
 //create student
 export const CREATE_STUDENT = (formData) => {
-  console.log(formData);
   return new Promise((resolve, reject) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}${api.addStudent}`, formData)

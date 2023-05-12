@@ -15,6 +15,13 @@ export const errorHandler = (code, message, dispatch) => {
         severity: "error",
       })
     );
+  } else if (code === 500) {
+    dispatch(
+      openSnackbar({
+        message: message,
+        severity: "error",
+      })
+    );
   } else {
     dispatch(
       openSnackbar({

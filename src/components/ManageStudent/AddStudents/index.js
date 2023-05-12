@@ -1,37 +1,34 @@
-import { Box } from "@mui/material";
-import React, {memo, useState, useEffect } from "react";
+import React, { useState } from "react";
+import Forms from "./Forms";
 import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../app/reducer/Snackbar";
-import { UPDATE_USER } from "../../../ApiFunctions/users";
+import { CREATE_STUDENT } from "../../../ApiFunctions/students";
 import { errorHandler } from "../../../ApiFunctions/ErrorHandler";
-import PersonalInfo from "../../../Utils/PersonalInfo";
-import EducationalInfo from "../../../Utils/EducationalInfo";
-import AddressInfo from "../../../Utils/AddressInfo";
-import FormButton from "../../../Utils/FormButton";
-const ChangeProfile = ({ cookies }) => {
-  const { userData } = useSelector((state) => state.getUserProfile);
+const Dashboard = () => {
+   const { userData } = useSelector((state) => state.getUserProfile);
+  const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const inputDate = new Date();
   const isoDate = inputDate.toISOString();
   const formattedDate = isoDate.slice(0, 10);
-  const dispatch = useDispatch();
+ 
   const DataObj = {
     fullname: "",
     email: "",
     phone: "",
+    roll_no: "",
     dob: formattedDate,
     gender: "male",
-    course: "bca",
-    course_year: "first year",
+    course: userData?.course,
+    course_year: userData?.course_year,
     address: "",
     city: "",
     pinCode: "",
     state: "",
     country: "",
-    role: "Teacher",
+    role: "Student",
   };
   const [formData, setFormData] = useState(DataObj);
-
   const handleFileInputChange = (e) => {
     let files = e.target.files;
     let fsize = files[0]?.size;
@@ -58,29 +55,9 @@ const ChangeProfile = ({ cookies }) => {
     setSelectedFile(null);
   };
 
-  useEffect(() => {
-    setFormData({
-      fullname: userData?.fullname,
-      phone: userData?.phone,
-      email: userData?.email,
-      dob: formattedDate,
-      gender: userData?.gender,
-      course: userData?.course,
-      course_year: userData?.course_year,
-      address: userData?.address,
-      city: userData?.city,
-      pinCode: userData?.pinCode,
-      state: userData?.state,
-      country: userData?.country,
-      role: "Teacher",
-    });
-    setSelectedFile(userData?.profileImage);
-  }, [userData, formattedDate]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const formDataValues = new FormData(event.target);
-
     // Convert formData to an object
     const data = {};
     for (let [key, value] of formDataValues.entries()) {
@@ -97,53 +74,38 @@ const ChangeProfile = ({ cookies }) => {
       );
       return;
     }
-
     const newFormData = {
       ...formData,
       profileImage: selectedFile,
     };
-    UPDATE_USER(cookies.UserId, newFormData)
+
+    CREATE_STUDENT(newFormData)
       .then((res) => {
         dispatch(
           openSnackbar({
-            message: res.data,
+            message: "Submitted successfully.",
             severity: "success",
           })
         );
-        window.location.reload();
+        setFormData(DataObj);
+        handleClear();
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
       });
   };
-  return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ mt: 1}}
-    >
-      <PersonalInfo
-        cookies={cookies}
-        formData={formData}
-        setFormData={setFormData}
-        handleFileInputChange={handleFileInputChange}
-        handleClear={handleClear}
-        selectedFile={selectedFile}
-      />
-      <EducationalInfo
-        cookies={cookies}
-        formData={formData}
-        setFormData={setFormData}
-      />
 
-      <AddressInfo
-        cookies={cookies}
-        formData={formData}
-        setFormData={setFormData}
-      />
-      <FormButton cookies={cookies} text={"Update Profile"} />
-    </Box>
+  return (
+    <Forms
+      handleFileInputChange={handleFileInputChange}
+      handleClear={handleClear}
+      selectedFile={selectedFile}
+      handleSubmit={handleSubmit}
+      formData={formData}
+      setFormData={setFormData}
+      flag={"add"}
+    />
   );
 };
 
-export default memo(ChangeProfile);
+export default Dashboard;

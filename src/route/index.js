@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { lazy } from "react";
 const Dashboard = lazy(() => import("../components/Dashboard/index"));
-const View = lazy(() => import("../components/ViewRecords/index"));
+const ManageStudent = lazy(() => import("../components/ManageStudent/index"));
 const Login = lazy(() => import("../components/Login/index"));
 
 const Register = lazy(() => import("../components/Register/index"));
@@ -22,8 +22,9 @@ const Home = lazy(() => import("../components/Home"));
 
 const ViewMessage = lazy(() => import("../components/ViewMessage"));
 
-const AddStudents = lazy(() => import("../components/AddStudents"));
-
+const ManageAttendance = lazy(() =>
+  import("../components/StudentAttendance/index")
+);
 const RouteIndex = () => {
   return (
     <Router>
@@ -31,18 +32,20 @@ const RouteIndex = () => {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/" element={<PrivateRoute />}>
           <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/add-student" element={<AddStudents />} />
-          <Route exact path="/view-students" element={<View />} />
-          <Route exact path="/edit-profile" element={<EditProfile />} />
+          <Route exact path="/manage-students" element={<ManageStudent />} />
+          <Route exact path="/manage-account" element={<EditProfile />} />
           <Route exact path="/messages" element={<ViewMessage />} />
+          <Route
+            exact
+            path="/manage-attendance"
+            element={<ManageAttendance />}
+          />
         </Route>
         <Route exact path="/" element={<PublicRoute />}>
           <Route exact path="/sign_in" element={<Login />} />
           <Route exact path="/sign_up" element={<Register />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/reset-password" element={<ResetPassword />} />
-          {/* <Route exact path="/about" element={<About />} /> */}
-          {/* <Route exact path="/contact" element={<Contact />} /> */}
         </Route>
         <Route exact path="*" element={<PageNotFound />} />
       </Routes>

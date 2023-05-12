@@ -9,16 +9,15 @@ import {
   DarkBorder,
   DarkD4D4,
   DarkThin4f4f,
-  Dark00FF,
 } from "./CommonCookies";
-import { useMediaQuery } from "@mui/material";
+
 const CustomTheme = ({ children }) => {
   const [cookies] = useCookies(["theme"]);
-  const matches = useMediaQuery("(min-width:600px)");
+
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#292929",
+        main: "#1976D2",
       },
       secondary: {
         main: "#1976D2",
@@ -148,29 +147,12 @@ const CustomTheme = ({ children }) => {
           },
         },
       },
-      MuiSwitch: {
-        styleOverrides: {
-          root: {
-            width: !matches && "48px !important",
-            height: !matches && "27px !important",
-            padding: !matches && "6px !important",
-            marginLeft: !matches && "5px !important",
-            "& .MuiSwitch-thumb": {
-              width: !matches && "24px !important",
-              height: !matches && "24px !important",
-            },
-            "& .MuiSwitch-switchBase": {
-              margin: !matches && "1px 0px !important",
-            },
-          },
-        },
-      },
 
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
             color: "#1976D2",
-            backgroundColor: Dark00FF(cookies),
+            backgroundColor: "#fff",
             border: "1px solid #1976D2",
             fontWeight: "bolder",
           },

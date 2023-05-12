@@ -1,5 +1,5 @@
-import React, {useState, memo } from "react";
-import { Typography, Grid, Paper, Box, Divider } from "@mui/material";
+import React, { useState, memo } from "react";
+import { Grid, Paper, Box, Divider } from "@mui/material";
 import { Settings, PowerSettingsNew } from "@mui/icons-material/";
 import Avatar from "@mui/material/Avatar";
 import { StyledBadge } from "../../Utils/stylingMethods";
@@ -20,14 +20,6 @@ const ProfileSection = ({ removeCookie, cookies, matches }) => {
   const { userData } = useSelector((state) => state.getUserProfile);
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
-
-  const hiddenStyle = {
-    width: '180px',
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    color: DarkFFF(cookies),
-  };
 
   const dispatch = useDispatch();
   const handleClose = () => {
@@ -85,51 +77,37 @@ const ProfileSection = ({ removeCookie, cookies, matches }) => {
                 justifyContent: "center",
               }}
             >
-              <Typography
-                sx={
-                  ({
-                    fontSize: "20px",
-                    color: DarkFFF(cookies),
-                    fontWeight: "bold",
-                  },
-                  hiddenStyle)
-                }
-              >
-                {userData?.fullname}
-              </Typography>
-              <Typography
-                sx={
-                  ({
-                    fontSize: "15px",
-                    color: DarkFF4F(cookies),
-                  },
-                  hiddenStyle)
-                }
-              >
-                Email: {userData?.email}
-              </Typography>
-              <Typography
-                sx={
-                  ({
-                    fontSize: "15px",
-                    color: DarkFF4F(cookies),
-                  },
-                  hiddenStyle)
-                }
-              >
-                Phone: {userData?.phone}
-              </Typography>
-              <Typography
-                sx={
-                  ({
-                    fontSize: "15px",
-                    color: DarkFF4F(cookies),
-                  },
-                  hiddenStyle)
-                }
-              >
-                Role: {userData?.role}
-              </Typography>
+              <ListItemText
+                sx={{
+                  fontSize: "20px !important",
+                  color: DarkFFF(cookies),
+                  fontWeight: "bold",
+                }}
+                primary={userData?.fullname}
+              />
+
+              <ListItemText
+                sx={{
+                  fontSize: "15px",
+                  color: DarkFF4F(cookies),
+                }}
+                primary={`Email: ${userData?.email}`}
+              />
+              <ListItemText
+                sx={{
+                  fontSize: "15px",
+                  color: DarkFF4F(cookies),
+                }}
+                primary={`Phone: ${userData?.phone}`}
+              />
+
+              <ListItemText
+                sx={{
+                  fontSize: "15px",
+                  color: DarkFF4F(cookies),
+                }}
+                primary={`Role: ${userData?.role}`}
+              />
             </Box>
           </Box>
           <Divider />
@@ -146,7 +124,7 @@ const ProfileSection = ({ removeCookie, cookies, matches }) => {
                   color: "#fff",
                 },
               }}
-              onClick={() => navigate("/edit-profile")}
+              onClick={() => navigate("/manage-account")}
             >
               <ListItemIcon>
                 <Settings sx={{ color: "#fff" }} />

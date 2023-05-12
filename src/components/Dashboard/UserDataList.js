@@ -15,11 +15,18 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import {
   CardBorder,
   Dark00FF,
-  DarkB5,
   DarkFFF,
 } from "../../Utils/CommonCookies";
 
-const UserDataList = ({ cookies, icon, title, bgColor, data, loading }) => {
+const UserDataList = ({
+  cookies,
+  icon,
+  title,
+  bgColor,
+  data,
+  loading,
+  userData,
+}) => {
   return (
     <Grid item xs={12} sm={6} md={4} lg={4}>
       <Box sx={{ borderTopLeftRadius: "5px", borderTopRightRadius: "5px" }}>
@@ -36,7 +43,12 @@ const UserDataList = ({ cookies, icon, title, bgColor, data, loading }) => {
           {icon}
           <Typography>{title}</Typography>
         </Box>
-        {data && data.length > 0 ? (
+        {data &&
+        data.filter(
+          (i) =>
+            i?.course === userData?.course &&
+            i?.course_year === userData?.course_year
+        ).length > 0 ? (
           <Paper
             elevation={0}
             sx={{
@@ -60,46 +72,51 @@ const UserDataList = ({ cookies, icon, title, bgColor, data, loading }) => {
                 width: "100%",
               }}
             >
-              {data.map((item, index) => {
-                return (
-                  <Box key={index}>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar
-                          src={item?.profileImage}
-                          sx={{ border: `1px solid ${bgColor}` }}
+              {data
+                .filter(
+                  (i) =>
+                    i?.course === userData?.course &&
+                    i?.course_year === userData?.course_year
+                )
+                .map((item, index) => {
+                  return (
+                    <Box key={index}>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar
+                            src={item?.profileImage}
+                            sx={{ border: `1px solid ${bgColor}` }}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={
+                            <Typography
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                                color: DarkFFF(cookies),
+                              }}
+                            >
+                              {item?.fullname}
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                color: DarkFFF(cookies),
+                              }}
+                            >
+                              {item?.email}
+                            </Typography>
+                          }
                         />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <Typography
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                              fontWeight: "bold",
-                              color: DarkFFF(cookies),
-                            }}
-                          >
-                            {item?.fullname}
-                          </Typography>
-                        }
-                        secondary={
-                          <Typography
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "13px",
-                              color: DarkFFF(cookies),
-                            }}
-                          >
-                            {item?.course + "-" + item?.course_year}
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </Box>
-                );
-              })}
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                    </Box>
+                  );
+                })}
             </List>
           </Paper>
         ) : (

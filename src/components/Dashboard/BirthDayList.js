@@ -21,7 +21,7 @@ import { GET_BIRTHDAY } from "../../ApiFunctions/students";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
 import { CardBorder, Dark00FF, DarkFFF } from "../../Utils/CommonCookies";
 
-const BirthDayList = ({ cookies, icon, title, bgColor }) => {
+const BirthDayList = ({ cookies, icon, title, bgColor, userData }) => {
   const matches = useMediaQuery("(min-width:900px)");
   const [value, setValue] = useState("student");
   const [studentBirthday, setStudentBirthday] = useState([]);
@@ -45,13 +45,20 @@ const BirthDayList = ({ cookies, icon, title, bgColor }) => {
   }, []);
 
   const CommonUI = ({ data, cookies }) => {
-    if (data && data.length > 0) {
+    if (
+      data &&
+      data.filter(
+        (i) =>
+          i?.course === userData?.course &&
+          i?.course_year === userData?.course_year
+      ).length > 0
+    ) {
       return (
         <Paper
           elevation={0}
           sx={{
             borderRadius: 0,
-            height:matches ?"231px":"182px",
+            height: matches ? "231px" : "182px",
             paddingBottom: "10px",
             overflowY: "scroll",
             background: Dark00FF(cookies),
@@ -70,46 +77,51 @@ const BirthDayList = ({ cookies, icon, title, bgColor }) => {
               width: "100%",
             }}
           >
-            {data.map((item, index) => {
-              return (
-                <Box key={index}>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar
-                        src={item?.profileImage}
-                        sx={{ border: `1px solid ${bgColor}` }}
+            {data
+              .filter(
+                (i) =>
+                  i?.course === userData?.course &&
+                  i?.course_year === userData?.course_year
+              )
+              .map((item, index) => {
+                return (
+                  <Box key={index}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar
+                          src={item?.profileImage}
+                          sx={{ border: `1px solid ${bgColor}` }}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          <Typography
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              color: DarkFFF(cookies),
+                            }}
+                          >
+                            {item?.fullname}
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            sx={{
+                              fontSize: "13px",
+                              color: DarkFFF(cookies),
+                            }}
+                          >
+                            {item?.email}
+                          </Typography>
+                        }
                       />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={
-                        <Typography
-                          sx={{
-                            textTransform: "capitalize",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            color: DarkFFF(cookies),
-                          }}
-                        >
-                          {item?.fullname}
-                        </Typography>
-                      }
-                      secondary={
-                        <Typography
-                          sx={{
-                            textTransform: "capitalize",
-                            fontSize: "13px",
-                            color: DarkFFF(cookies),
-                          }}
-                        >
-                          {item?.course + "-" + item?.course_year}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </Box>
-              );
-            })}
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </Box>
+                );
+              })}
           </List>
         </Paper>
       );
@@ -174,7 +186,14 @@ const BirthDayList = ({ cookies, icon, title, bgColor }) => {
                 background: cookies.theme === "dark" ? bgColor : "#fff",
               }}
             >
-              <TabList onChange={handleChange}>
+              <TabList
+                onChange={handleChange}
+                sx={{
+                  "& .MuiTabs-indicator": {
+                    background: cookies.theme === "dark" ? "#fff" : "#1976D2",
+                  },
+                }}
+              >
                 <Tab
                   label="Student"
                   value="student"
@@ -182,6 +201,9 @@ const BirthDayList = ({ cookies, icon, title, bgColor }) => {
                     textTransform: "capitalize",
                     color: DarkFFF(cookies),
                     background: cookies.theme === "dark" ? bgColor : "#fff",
+                    "&.Mui-selected": {
+                      color: cookies.theme === "dark" && "#fff",
+                    },
                   }}
                 />
                 <Tab
@@ -191,6 +213,9 @@ const BirthDayList = ({ cookies, icon, title, bgColor }) => {
                     textTransform: "capitalize",
                     color: DarkFFF(cookies),
                     background: cookies.theme === "dark" ? bgColor : "#fff",
+                    "&.Mui-selected": {
+                      color: cookies.theme === "dark" && "#fff",
+                    },
                   }}
                 />
               </TabList>

@@ -12,6 +12,7 @@ import CustomAvatar from "../../../Utils/CustomAvatar";
 import SearchAppBar from "../../../Utils/SearchAppBar";
 import ClearIcon from "@mui/icons-material/Clear";
 import AfterLoginMenuBody from "./AfterLoginMenuBody";
+import ModeComp from "../../../Utils/ModeComp.js";
 const DrawerAppBar = ({
   open,
   handleDrawerOpen,
@@ -32,6 +33,7 @@ const DrawerAppBar = ({
   setDialogOpen,
   cookies,
   flag,
+  value,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const MenuOpen = Boolean(anchorEl);
@@ -42,7 +44,7 @@ const DrawerAppBar = ({
     setAnchorEl(null);
   };
   const searchCondition = () => {
-    if (["/view-students", "/messages"].includes(window.location.pathname)) {
+    if (["/manage-students", "/messages"].includes(window.location.pathname)) {
       return true;
     } else {
       return false;
@@ -50,8 +52,8 @@ const DrawerAppBar = ({
   };
 
   const handleNavigate = () => {
-    if (window.location.pathname !== "/edit-profile") {
-      navigate("/edit-profile");
+    if (window.location.pathname !== "/manage-account") {
+      navigate("/manage-account");
     }
   };
   const removeSearch = () => {
@@ -86,7 +88,8 @@ const DrawerAppBar = ({
             {matches &&
               searchCondition() &&
               data?.length > 0 &&
-              flag === false && (
+              flag === false &&
+              value === 1 && (
                 <SearchAppBar
                   setQuery={setQuery}
                   query={query}
@@ -127,6 +130,7 @@ const DrawerAppBar = ({
                 </IconButton>
               </Tooltip>
             )}
+            {matches && <ModeComp/>}
             {!matches && (
               <IconButton
                 aria-label="menu"
@@ -142,23 +146,27 @@ const DrawerAppBar = ({
           </Box>
         </Box>
       </Toolbar>
-      {!matches && upDown && data?.length > 0 && flag === false && (
-        <Box sx={styles.searchToolbar}>
-          {searchCondition() && (
-            <SearchAppBar
-              setQuery={setQuery}
-              query={query}
-              matches={matches}
-              cookies={cookies}
-            />
-          )}
-          <Tooltip title="Close search" placement="bottom">
-            <IconButton onClick={() => removeSearch()}>
-              <ClearIcon sx={styles.searchIcon} />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      )}
+      {!matches &&
+        upDown &&
+        data?.length > 0 &&
+        flag === false &&
+        value === 1 && (
+          <Box sx={styles.searchToolbar}>
+            {searchCondition() && (
+              <SearchAppBar
+                setQuery={setQuery}
+                query={query}
+                matches={matches}
+                cookies={cookies}
+              />
+            )}
+            <Tooltip title="Close search" placement="bottom">
+              <IconButton onClick={() => removeSearch()}>
+                <ClearIcon sx={styles.searchIcon} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
       <AfterLoginMenuBody
         anchorEl={anchorEl}
         open={MenuOpen}

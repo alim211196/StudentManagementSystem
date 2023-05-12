@@ -68,7 +68,6 @@ export default function SignUp() {
      reader.readAsDataURL(files[0]);
      reader.onload = (e) => {
        setSelectedFile(e.target.result);
-       console.log(e.target.result);
      };
    };
    const handleClear = () => {

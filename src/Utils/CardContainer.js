@@ -1,9 +1,9 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import CustomCard from "./CustomCard";
 import DataNotFound from "./DataNotFound";
 import { useCookies } from "react-cookie";
-import CourseFilter from "./CourseFilter";
+import { useSelector } from "react-redux";
 
 const CardContainer = ({
   parentComp,
@@ -11,13 +11,9 @@ const CardContainer = ({
   handleOpen,
   data,
   loading,
-  flag,
 }) => {
   const [cookies] = useCookies(["theme"]);
-  const [formData, setFormData] = useState({
-    course: "bca",
-    course_year: "first year",
-  });
+  const { userData } = useSelector((state) => state.getUserProfile);
   const styleOnGrid = {
     display: "flex",
     height: "50vh",
@@ -31,25 +27,19 @@ const CardContainer = ({
   };
 
   return (
-    <Box sx={{ marginTop: "10px" }}>
-      {flag === false && (
-        <CourseFilter
-          cookies={cookies}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
+    <Box sx={{ mt: 1 }}>
       {data &&
       data.filter(
         (i) =>
-          i.course === formData.course && i.course_year === formData.course_year
+          i?.course === userData?.course &&
+          i?.course_year === userData?.course_year
       ).length > 0 ? (
         <Grid container spacing={2} sx={ConditionOnGrid}>
           {data
             .filter(
               (i) =>
-                i.course === formData.course &&
-                i.course_year === formData.course_year
+                i?.course === userData?.course &&
+                i?.course_year === userData?.course_year
             )
             .map((item, index) => {
               return (

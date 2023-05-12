@@ -17,7 +17,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ExpandMore } from "./stylingMethods";
-import { Dark00, Dark00FF, DarkFFF } from "./CommonCookies";
+import { CardBorder, Dark00, Dark00FF, DarkFFF } from "./CommonCookies";
 const CustomCard = ({ item, handleEdit, handleOpen, parentComp, cookies }) => {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -47,9 +47,9 @@ const CustomCard = ({ item, handleEdit, handleOpen, parentComp, cookies }) => {
   const cookieCondition = () => {
     if (cookies.theme === "dark") {
       return {
-        background:Dark00FF(cookies),
+        background: Dark00FF(cookies),
         color: "#fff",
-        // border: "1px solid #1976D2",
+        border: CardBorder(cookies, "#1976D2"),
       };
     }
   };
@@ -100,7 +100,7 @@ const CustomCard = ({ item, handleEdit, handleOpen, parentComp, cookies }) => {
             color="text.secondary"
             sx={{ color: DarkFFF(cookies), textTransform: "capitalize" }}
           >
-            {item?.course + "-" + item?.course_year}
+            {item?.phone}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -134,7 +134,7 @@ const CustomCard = ({ item, handleEdit, handleOpen, parentComp, cookies }) => {
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <ExpandMoreIcon />
+            <ExpandMoreIcon sx={{ color: "#1976D2" }} />
           </ExpandMore>
         )}
       </CardActions>

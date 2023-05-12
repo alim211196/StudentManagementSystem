@@ -3,12 +3,14 @@ import PaperWrapper from "./PaperWrapper";
 import { Grid } from "@mui/material";
 import CustomTextField from "./CustomTextField";
 import { Gender } from "./DropdownArray";
-import CustomDatePicker from "./CustomDatePicker";
+import CustomDateTextField from "./CustomDateTextField";
 import CustomDropDown from "./CustomDropDown";
 import { Person } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { PhotoCamera, HighlightOff } from "@mui/icons-material";
+import { Dark00 } from "./CommonCookies";
+
 const PersonalInfo = ({
   handleFileInputChange,
   selectedFile,
@@ -53,6 +55,7 @@ const PersonalInfo = ({
                   height: 120,
                   borderRadius: "50%",
                   border: "1px solid #EF5350",
+                  background: Dark00(cookies),
                 }}
               />
             </Box>
@@ -106,9 +109,20 @@ const PersonalInfo = ({
               disabled={false}
             />
           </Grid>
+          {window.location.pathname === "/manage-students" && (
+            <Grid item xs={12} sm={6} md={6}>
+              <CustomTextField
+                label={"Roll number"}
+                name="roll_no"
+                value={formData.roll_no}
+                setFormData={setFormData}
+                type="number"
+                disabled={false}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12} sm={6} md={6}>
-            {" "}
             <CustomTextField
               label={"Mobile number"}
               name="phone"
@@ -119,7 +133,7 @@ const PersonalInfo = ({
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
-            <CustomDatePicker
+            <CustomDateTextField
               label={"Date of birth"}
               name="dob"
               value={formData.dob}

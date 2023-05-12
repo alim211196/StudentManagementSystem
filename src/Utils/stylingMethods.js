@@ -2,11 +2,11 @@ import Badge from "@mui/material/Badge";
 import { styled, alpha } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton, TableCell, tableCellClasses } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import Switch from "@mui/material/Switch";
-import { Light4F, LightBorder } from "./CommonCookies";
-const drawerWidth = 200;
+import { DarkFFF, Light4F, LightBorder } from "./CommonCookies";
+const drawerWidth = 220;
 
 export const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -144,22 +144,24 @@ export const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-export const StyledInputBase = styled(InputBase)(({ theme, cookies,matches }) => ({
-color: Light4F(cookies, matches),
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
+export const StyledInputBase = styled(InputBase)(
+  ({ theme, cookies, matches }) => ({
+    color: Light4F(cookies, matches),
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        width: "12ch",
+        "&:focus": {
+          width: "20ch",
+        },
       },
     },
-  },
-}));
+  })
+);
 
 export const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -172,12 +174,13 @@ export const ExpandMore = styled((props) => {
   }),
 }));
 
-export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-  width: 62,
-  height: 34,
-  padding: 7,
+export const MaterialUISwitch = styled(Switch)(({ theme, matches }) => ({
+  width: !matches ? 48 : 62,
+  height: !matches ? 27 : 34,
+  padding: !matches ? 6 : 7,
+  marginLeft: !matches && 5,
   "& .MuiSwitch-switchBase": {
-    margin: 1,
+    margin: !matches ? "1px 0px!important" : 1,
     padding: 0,
     transform: "translateX(6px)",
     "&.Mui-checked": {
@@ -196,8 +199,8 @@ export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   "& .MuiSwitch-thumb": {
     backgroundColor: theme.palette.mode === "dark" ? "#003892" : "#001e3c",
-    width: 32,
-    height: 32,
+    width: !matches ? "24px!important" : 32,
+    height: !matches ? "24px!important" : 32,
     "&:before": {
       content: "''",
       position: "absolute",
@@ -218,3 +221,57 @@ export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
+
+export const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
+    padding: 2,
+    "&.Mui-checked": {
+      transform: "translateX(12px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: 'green',
+      },
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: theme.transitions.create(["width"], {
+      duration: 200,
+    }),
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor: "red",
+    boxSizing: "border-box",
+  },
+}));
+
+
+export const StyledTableCell = styled(TableCell)(({ cookies, theme }) => ({
+  color: DarkFFF(cookies),
+  [`&.${tableCellClasses.head}`]: {
+    background: "#292929",
+    color: "#fff",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+

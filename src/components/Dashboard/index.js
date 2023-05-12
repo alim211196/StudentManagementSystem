@@ -20,6 +20,7 @@ import { errorHandler } from "../../ApiFunctions/ErrorHandler";
 import BirthDayList from "./BirthDayList";
 import TitleBox from "../../Utils/TitleBox";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 const Dashboard = () => {
   const [resources, setResources] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const [recentStudents, setRecentStudents] = useState([]);
   const [recentTeachers, setRecentTeachers] = useState([]);
   const [cookies, removeCookie] = useCookies(["loggedIn", "UserId", "theme"]);
+  const { userData } = useSelector((state) => state.getUserProfile);
   const iconStyle = {
     width: "80px",
     height: "80px",
@@ -46,13 +48,13 @@ const Dashboard = () => {
       });
     GET_RECENT_ENTRY()
       .then((res) => {
-          setLoading(false);
+        setLoading(false);
         setRecentMessages(res?.data?.recentMessages);
         setRecentStudents(res?.data?.recentStudents);
         setRecentTeachers(res?.data?.recentTeachers);
       })
       .catch((err) => {
-          setLoading(false);
+        setLoading(false);
         errorHandler(err?.status, err?.data);
       });
   }, []);
@@ -68,7 +70,7 @@ const Dashboard = () => {
             }
             text={"Dashboard"}
           />
-          <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid container spacing={2}>
             <CardList
               topColor={"#EF5350"}
               icon={<School sx={iconStyle} />}
@@ -113,6 +115,7 @@ const Dashboard = () => {
               title={"Recently added students"}
               icon={<School sx={{ mr: 1 }} />}
               loading={loading}
+              userData={userData}
             />
             <UserDataList
               cookies={cookies}
@@ -121,9 +124,11 @@ const Dashboard = () => {
               title={"Recently joined teachers"}
               icon={<SupervisedUserCircle sx={{ mr: 1 }} />}
               loading={loading}
+              userData={userData}
             />
             <BirthDayList
               cookies={cookies}
+              userData={userData}
               bgColor={"#AB47BC"}
               title={"Celebrating birthday"}
               icon={<Celebration sx={{ mr: 1 }} />}
@@ -135,6 +140,7 @@ const Dashboard = () => {
               title={"Recent messages"}
               icon={<Sms sx={{ mr: 1 }} />}
               loading={loading}
+              userData={userData}
             />
           </Grid>
         </Container>

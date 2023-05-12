@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 const TitleBox = ({ icon, text, flag, BackButtonCondition }) => {
   const [cookies] = useCookies(["theme"]);
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{mb:2}}>
       <Grid item xs={12} md={12} lg={12}>
         <Paper
           elevation={0}

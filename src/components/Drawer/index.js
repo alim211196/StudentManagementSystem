@@ -15,14 +15,14 @@ import { fetchData } from "../../app/reducer/getUserProfile";
 import LowerIcons from "./DrawerSubComponents/LowerIcons";
 import DrawerAppBar from "./DrawerSubComponents/DrawerAppBar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { Fab, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { GET_USER } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
-import ModeComp from "../../Utils/ModeComp";
 import { DrawerStyle } from "./styles";
 import CustomTheme from "../../Utils/CustomTheme";
-const MiniDrawer = ({ children, setQuery, query, data, flag }) => {
+import { openSnackbar } from "../../app/reducer/Snackbar";
+const MiniDrawer = ({ children, setQuery, query, data, flag, value }) => {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.getUserProfile);
   const matches = useMediaQuery("(min-width:600px)");
@@ -53,6 +53,20 @@ const MiniDrawer = ({ children, setQuery, query, data, flag }) => {
     );
     navigate("/");
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+       dispatch(
+         openSnackbar({
+           message: "Your session is Expired please login again.",
+           severity: "error",
+         })
+       );
+      logoutFn();
+    }, 3600000); // 1 hour in milliseconds
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   useEffect(() => {
     if (!userData?._id) {
@@ -108,6 +122,7 @@ const MiniDrawer = ({ children, setQuery, query, data, flag }) => {
           setDialogOpen={setDialogOpen}
           cookies={cookies}
           flag={flag}
+          value={value}
         />
         <Drawer
           variant="permanent"
@@ -158,26 +173,6 @@ const MiniDrawer = ({ children, setQuery, query, data, flag }) => {
           text={"Are your sure you want to exit?"}
         />
       </Box>
-      {matches && (
-        <Fab
-          sx={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle at center, #1976D2 , #292929)",
-            color: "white",
-            width: "50px",
-            height: "50px",
-            "&:hover": {
-              background:
-                "radial-gradient(circle at center, #1976D2 , #292929)",
-            },
-          }}
-        >
-          <ModeComp />
-        </Fab>
-      )}
     </CustomTheme>
   );
 };

@@ -14,10 +14,7 @@ export const ContactStyle = (cookies) => {
       color: DarkFFF(cookies),
     },
     MainContainer1 = {
-      margin: "20px 0px",
-      pl: 2,
-      pr: 2,
-      pt: 2,
+     padding: '8px 16px 13px 16px'
     },
     normalBox = {
       height: "100vh",
