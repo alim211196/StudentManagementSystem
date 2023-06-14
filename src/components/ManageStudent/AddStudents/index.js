@@ -4,14 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../app/reducer/Snackbar";
 import { CREATE_STUDENT } from "../../../ApiFunctions/students";
 import { errorHandler } from "../../../ApiFunctions/ErrorHandler";
+import { setLoading } from "../../../app/reducer/Loader";
 const Dashboard = () => {
-   const { userData } = useSelector((state) => state.getUserProfile);
+  const { userData } = useSelector((state) => state.getUserProfile);
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const inputDate = new Date();
   const isoDate = inputDate.toISOString();
   const formattedDate = isoDate.slice(0, 10);
- 
+
   const DataObj = {
     fullname: "",
     email: "",
@@ -78,7 +80,7 @@ const Dashboard = () => {
       ...formData,
       profileImage: selectedFile,
     };
-
+    dispatch(setLoading(true));
     CREATE_STUDENT(newFormData)
       .then((res) => {
         dispatch(
@@ -89,9 +91,11 @@ const Dashboard = () => {
         );
         setFormData(DataObj);
         handleClear();
+        dispatch(setLoading(false));
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
@@ -104,6 +108,7 @@ const Dashboard = () => {
       formData={formData}
       setFormData={setFormData}
       flag={"add"}
+      loading={loading}
     />
   );
 };

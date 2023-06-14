@@ -74,11 +74,12 @@ export const FORGOT_PASSWORD = (formData) => {
 };
 
 //reset password
-export const RESET_PASSWORD = (id, password) => {
+export const RESET_PASSWORD = (id, password, otp) => {
   return new Promise((resolve, reject) => {
     axios
       .patch(`${process.env.REACT_APP_API_URL}${api.resetPassword}${id}`, {
-        password: password,
+        new_password: password,
+        otp: otp,
       })
       .then((res) => {
         if (res.status === 200) {

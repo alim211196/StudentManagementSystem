@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import { USER_REGISTER } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
@@ -18,11 +18,13 @@ import EducationalInfo from "../../Utils/EducationalInfo";
 import AddressInfo from "../../Utils/AddressInfo";
 import PasswordInfo from "../../Utils/PasswordInfo";
 import FormButton from "../../Utils/FormButton";
+import { setLoading } from "../../app/reducer/Loader";
 export default function SignUp() {
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [cookies] = useCookies(["theme"]);
-    const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const inputDate = new Date();
   const isoDate = inputDate.toISOString();
   const formattedDate = isoDate.slice(0, 10);
@@ -48,31 +50,31 @@ export default function SignUp() {
     confirm_password: "",
   });
 
-   const handleFileInputChange = (e) => {
-     let files = e.target.files;
-     let fsize = files[0]?.size;
+  const handleFileInputChange = (e) => {
+    let files = e.target.files;
+    let fsize = files[0]?.size;
 
-     const file = Math.round(fsize / 1024);
+    const file = Math.round(fsize / 1024);
 
-     if (file > 100) {
-       dispatch(
-         openSnackbar({
-           message: "Please upload image less than 1MB.",
-           severity: "error",
-         })
-       );
-       return;
-     }
+    if (file > 100) {
+      dispatch(
+        openSnackbar({
+          message: "Please upload image less than 1MB.",
+          severity: "error",
+        })
+      );
+      return;
+    }
 
-     let reader = new FileReader();
-     reader.readAsDataURL(files[0]);
-     reader.onload = (e) => {
-       setSelectedFile(e.target.result);
-     };
-   };
-   const handleClear = () => {
-     setSelectedFile(null);
-   };
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (e) => {
+      setSelectedFile(e.target.result);
+    };
+  };
+  const handleClear = () => {
+    setSelectedFile(null);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -102,11 +104,11 @@ export default function SignUp() {
       );
       return;
     }
-       const newFormData = {
-         ...formData,
-         profileImage: selectedFile,
-       };
-
+    const newFormData = {
+      ...formData,
+      profileImage: selectedFile,
+    };
+    dispatch(setLoading(true));
     USER_REGISTER(newFormData)
       .then((res) => {
         dispatch(
@@ -118,9 +120,11 @@ export default function SignUp() {
         setFormData(DataObj);
         navigate("/");
         handleClear();
+        dispatch(setLoading(false));
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
@@ -191,7 +195,11 @@ export default function SignUp() {
               formData={formData}
               setFormData={setFormData}
             />
-            <FormButton cookies={cookies} text={"Submit Your Form"} />
+            <FormButton
+              cookies={cookies}
+              text={"Submit Your Form"}
+              loading={loading}
+            />
           </Box>
         </Container>
       </Box>

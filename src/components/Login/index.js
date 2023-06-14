@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomButton from "../../Utils/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import { useCookies } from "react-cookie";
 import CustomTextField from "../../Utils/CustomTextField";
@@ -9,11 +9,13 @@ import CustomPassword from "../../Utils/CustomPassword";
 import BoxWrapper from "../../Utils/BoxWrapper";
 import { USER_LOGIN } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
+import { setLoading } from "../../app/reducer/Loader";
 
 export default function SignIn() {
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["loggedIn", "UserId","theme"]);
+  const [cookies, setCookie] = useCookies(["loggedIn", "UserId", "theme"]);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,6 +37,7 @@ export default function SignIn() {
       );
       return;
     }
+    dispatch(setLoading(true));
     USER_LOGIN(formData)
       .then((res) => {
         dispatch(
@@ -46,9 +49,11 @@ export default function SignIn() {
         setCookie("loggedIn", "true", { path: "/" });
         setCookie("UserId", res.data, { path: "/" });
         navigate("/dashboard");
+        dispatch(setLoading(false));
       })
       .catch((err) => {
-       errorHandler(err?.status, err?.data, dispatch);
+        errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
@@ -77,7 +82,7 @@ export default function SignIn() {
         setFormData={setFormData}
         cookies={cookies}
       />
-      <CustomButton text={"Submit"} />
+      <CustomButton text={"Submit"} loading={loading} />
     </BoxWrapper>
   );
 }

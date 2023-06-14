@@ -44,6 +44,15 @@ const ProfileSection = ({ removeCookie, cookies, matches }) => {
             height: "275px",
             background: Dark00FF(cookies),
             border: CardBorder(cookies, "#1976D2"),
+            borderRadius: 0,
+            overflowY: "scroll",
+            borderBottomLeftRadius: "5px",
+            borderBottomRightRadius: "5px",
+            scrollbarWidth: "none", // hide scrollbar on Firefox
+            "&::-webkit-scrollbar": {
+              width: 0,
+              height: 0,
+            },
           }}
         >
           <Box sx={{ display: "flex" }}>

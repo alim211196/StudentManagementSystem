@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../app/reducer/Snackbar";
 import Forms from "../AddStudents/Forms";
 import DialogBox from "../../../Utils/DialogBox";
@@ -10,21 +10,21 @@ import {
   GET_STUDENT_BY_ID,
   UPDATE_STUDENT,
 } from "../../../ApiFunctions/students";
+import { setLoading } from "../../../app/reducer/Loader";
 import { errorHandler } from "../../../ApiFunctions/ErrorHandler";
 const ViewRecords = ({
   flag,
   setFlag,
-  setLoading,
   loading,
   data,
-  setData,
   getStudentData,
-  setQuery,query
+  setQuery,
+  query,
 }) => {
   const dispatch = useDispatch();
   const [ID, setID] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  const loader = useSelector((state) => state.loading);
   const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
     fullname: "",
@@ -42,8 +42,6 @@ const ViewRecords = ({
     country: "",
     role: "Student",
   });
-
-  
 
   const handleClose = () => {
     setDialogOpen(false);
@@ -69,6 +67,7 @@ const ViewRecords = ({
         errorHandler(err?.status, err?.data, dispatch);
       });
   };
+
   const handleEdit = (id) => {
     GET_STUDENT_BY_ID(id)
       .then((res) => {
@@ -151,6 +150,7 @@ const ViewRecords = ({
       ...formData,
       profileImage: selectedFile,
     };
+    dispatch(setLoading(true));
     UPDATE_STUDENT(ID, newFormData)
       .then((res) => {
         dispatch(
@@ -159,9 +159,11 @@ const ViewRecords = ({
             severity: "success",
           })
         );
+        dispatch(setLoading(false));
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
   const newResults = SearchWithFuse(
@@ -195,6 +197,7 @@ const ViewRecords = ({
           handleFileInputChange={handleFileInputChange}
           handleClear={handleClear}
           selectedFile={selectedFile}
+          loading={loader}
         />
       )}
       <DialogBox

@@ -5,10 +5,10 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import CustomTheme from "../../Utils/CustomTheme";
 import CustomButton from "../../Utils/CustomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import CustomTextField from "../../Utils/CustomTextField";
- import CustomMultilineTextField from "../../Utils/CustomMultilineTextField";
+import CustomMultilineTextField from "../../Utils/CustomMultilineTextField";
 import { Paper, Typography } from "@mui/material";
 import { GET_COURSES, POST_COMMENT } from "../../ApiFunctions/students";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
@@ -17,9 +17,10 @@ import SwipeableTextMobileStepper from "../../Utils/StepperComp";
 import { CardBorder, Dark00FF } from "../../Utils/CommonCookies";
 import CustomDropDown from "../../Utils/CustomDropDown";
 import { Gender } from "../../Utils/DropdownArray";
+import { setLoading } from "../../app/reducer/Loader";
 const Contact = ({ Home, cookies }) => {
   const styles = ContactStyle(cookies);
-
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const DataObj = {
     fullname: "",
@@ -31,7 +32,7 @@ const Contact = ({ Home, cookies }) => {
     comment: "",
   };
   const [formData, setFormData] = useState(DataObj);
-   const [Courses, setCourses] = useState([]);
+  const [Courses, setCourses] = useState([]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const formDataValues = new FormData(event.target);
@@ -49,7 +50,7 @@ const Contact = ({ Home, cookies }) => {
       );
       return;
     }
-
+    dispatch(setLoading(true));
     POST_COMMENT(formData)
       .then((res) => {
         dispatch(
@@ -59,32 +60,32 @@ const Contact = ({ Home, cookies }) => {
           })
         );
         setFormData(DataObj);
+        dispatch(setLoading(false));
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
+  useEffect(() => {
+    GET_COURSES()
+      .then((res) => {
+        setCourses(res.data);
+      })
+      .catch((err) => {
+        errorHandler(err?.status, err?.data);
+      });
+  }, []);
 
+  const coursesName = Courses.map(({ course }) => ({
+    name: course.name,
+    value: course.value,
+  }));
 
-   useEffect(() => {
-     GET_COURSES()
-       .then((res) => {
-         setCourses(res.data);
-       })
-       .catch((err) => {
-         errorHandler(err?.status, err?.data);
-       });
-   }, []);
-
-   const coursesName = Courses.map(({ course }) => ({
-     name: course.name,
-     value: course.value,
-   }));
-
-   const coursesYear = Courses.find(
-     ({ course }) => course.value === formData.course
-   )?.years;
+  const coursesYear = Courses.find(
+    ({ course }) => course.value === formData.course
+  )?.years;
 
   return (
     <CustomTheme>
@@ -203,7 +204,10 @@ const Contact = ({ Home, cookies }) => {
                     sx={{ pb: 1, pl: 3, pr: 3 }}
                   >
                     <Grid item xs={12} sm={6}>
-                      <CustomButton text={"Post Your Comment"} />
+                      <CustomButton
+                        text={"Post Your Comment"}
+                        loading={loading}
+                      />
                     </Grid>
                   </Grid>
                 </Box>

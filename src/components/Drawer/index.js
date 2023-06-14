@@ -1,4 +1,4 @@
-import React, { memo,useState, useEffect } from "react";
+import React, { memo, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -56,12 +56,12 @@ const MiniDrawer = ({ children, setQuery, query, data, flag, value }) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-       dispatch(
-         openSnackbar({
-           message: "Your session is Expired please login again.",
-           severity: "error",
-         })
-       );
+      dispatch(
+        openSnackbar({
+          message: "Your session is Expired please login again.",
+          severity: "error",
+        })
+      );
       logoutFn();
     }, 3600000); // 1 hour in milliseconds
 
@@ -81,6 +81,9 @@ const MiniDrawer = ({ children, setQuery, query, data, flag, value }) => {
           );
         })
         .catch((err) => {
+          if (err?.status === 404) {
+             logoutFn();
+          }
           setLoading(false);
           errorHandler(err?.status, err?.data, dispatch);
         });

@@ -82,7 +82,7 @@ const DrawerAppBar = ({
         )}
         <Box sx={styles.innerBox3}>
           <Typography variant="h6" noWrap component="div" sx={styles.titleTypo}>
-            Student Management System
+            StudentTracker
           </Typography>
           <Box sx={styles.childBox1}>
             {matches &&

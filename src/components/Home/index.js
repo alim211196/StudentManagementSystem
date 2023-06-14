@@ -42,7 +42,7 @@ const Home = () => {
           <Box sx={styles.MainContainer}>
             <Box sx={styles.innerBox}>
               <Typography sx={styles.typo1}>
-                Welcome to Student Management System
+                Welcome to StudentTracker
               </Typography>
               <Typography sx={styles.typo2}>{styles.longText}</Typography>
               <LinkComp

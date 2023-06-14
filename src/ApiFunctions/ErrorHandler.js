@@ -1,7 +1,15 @@
 import { openSnackbar } from "../app/reducer/Snackbar";
 
 export const errorHandler = (code, message, dispatch) => {
-  if (code === 401) {
+  if(code === 400){
+      dispatch(
+        openSnackbar({
+          message: message,
+          severity: "error",
+        })
+      );
+  }
+  else if (code === 401) {
     dispatch(
       openSnackbar({
         message: message,

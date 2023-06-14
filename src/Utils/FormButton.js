@@ -3,7 +3,7 @@ import React from "react";
 import CustomButton from "./CustomButton";
 import { CardBorder } from "./CommonCookies";
 
-const FormButton = ({ cookies, text }) => {
+const FormButton = ({ cookies, text, loading }) => {
   return (
     <Paper
       elevation={0}
@@ -21,7 +21,7 @@ const FormButton = ({ cookies, text }) => {
       }}
     >
       <Box>
-        <CustomButton text={text} />
+        <CustomButton text={text} loading={loading}/>
       </Box>
     </Paper>
   );

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, {memo, useState, useEffect } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../app/reducer/Snackbar";
 import { UPDATE_USER } from "../../../ApiFunctions/users";
@@ -8,8 +8,10 @@ import PersonalInfo from "../../../Utils/PersonalInfo";
 import EducationalInfo from "../../../Utils/EducationalInfo";
 import AddressInfo from "../../../Utils/AddressInfo";
 import FormButton from "../../../Utils/FormButton";
+import { setLoading } from "../../../app/reducer/Loader";
 const ChangeProfile = ({ cookies }) => {
   const { userData } = useSelector((state) => state.getUserProfile);
+  const loading = useSelector((state) => state.loading);
   const [selectedFile, setSelectedFile] = useState(null);
   const inputDate = new Date();
   const isoDate = inputDate.toISOString();
@@ -102,6 +104,7 @@ const ChangeProfile = ({ cookies }) => {
       ...formData,
       profileImage: selectedFile,
     };
+    dispatch(setLoading(true));
     UPDATE_USER(cookies.UserId, newFormData)
       .then((res) => {
         dispatch(
@@ -111,17 +114,15 @@ const ChangeProfile = ({ cookies }) => {
           })
         );
         window.location.reload();
+        dispatch(setLoading(false));
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ mt: 1}}
-    >
+    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
       <PersonalInfo
         cookies={cookies}
         formData={formData}
@@ -141,7 +142,7 @@ const ChangeProfile = ({ cookies }) => {
         formData={formData}
         setFormData={setFormData}
       />
-      <FormButton cookies={cookies} text={"Update Profile"} />
+      <FormButton cookies={cookies} text={"Update Profile"} loading={loading} />
     </Box>
   );
 };

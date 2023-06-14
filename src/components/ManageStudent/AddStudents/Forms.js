@@ -12,6 +12,7 @@ const Forms = ({
   setFormData,
   handleFileInputChange,
   handleClear,
+  loading,
 }) => {
   const [cookies] = useCookies(["theme"]);
   // const styles = DashboardStyle(matches);
@@ -36,7 +37,11 @@ const Forms = ({
         formData={formData}
         setFormData={setFormData}
       />
-      <FormButton cookies={cookies} text={"Submit Your Form"} />
+      <FormButton
+        cookies={cookies}
+        text={"Submit Your Form"}
+        loading={loading}
+      />
     </Box>
   );
 };

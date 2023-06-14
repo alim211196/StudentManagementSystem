@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import CustomButton from "../../Utils/CustomButton";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import CustomPassword from "../../Utils/CustomPassword";
 import BoxWrapper from "../../Utils/BoxWrapper";
 import { RESET_PASSWORD } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
 import { useCookies } from "react-cookie";
+import CustomTextField from "../../Utils/CustomTextField";
+import { setLoading } from "../../app/reducer/Loader";
 export default function ResetPassword() {
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { ID } = location.state;
-    const [cookies] = useCookies(["theme"]);
+  const [cookies] = useCookies(["theme"]);
   const [formData, setFormData] = useState({
-    password: "",
+    otp: "",
+    new_password: "",
     confirm_password: "",
   });
 
@@ -28,8 +32,8 @@ export default function ResetPassword() {
       data[key] = value;
     }
 
-    const { password, confirm_password } = data;
-    if (password !== confirm_password) {
+    const { new_password, confirm_password, otp } = data;
+    if (new_password !== confirm_password) {
       dispatch(
         openSnackbar({
           message: "Passwords do not match.",
@@ -38,7 +42,15 @@ export default function ResetPassword() {
       );
       return;
     }
-
+    if (otp.length !== 6) {
+      dispatch(
+        openSnackbar({
+          message: "OTP should be 6 digits long.",
+          severity: "error",
+        })
+      );
+      return;
+    }
     const hasEmptyFields = Object.values(data).some((value) => !value);
     if (hasEmptyFields) {
       dispatch(
@@ -49,7 +61,8 @@ export default function ResetPassword() {
       );
       return;
     }
-    RESET_PASSWORD(ID, formData.password)
+    dispatch(setLoading(true));
+    RESET_PASSWORD(ID, data.new_password, data.otp)
       .then((res) => {
         dispatch(
           openSnackbar({
@@ -58,9 +71,11 @@ export default function ResetPassword() {
           })
         );
         navigate("/sign_in");
+        dispatch(setLoading(false));
       })
       .catch((err) => {
-           errorHandler(err?.status, err?.data, dispatch);
+        errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
@@ -72,10 +87,18 @@ export default function ResetPassword() {
       handleSubmit={handleSubmit}
       cookies={cookies}
     >
+      <CustomTextField
+        label={"OTP"}
+        name="otp"
+        value={formData.otp}
+        setFormData={setFormData}
+        type="number"
+        disabled={false}
+      />
       <CustomPassword
-        label={"Password"}
-        name="password"
-        value={formData.password}
+        label={"New Password"}
+        name="new_password"
+        value={formData.new_password}
         setFormData={setFormData}
         cookies={cookies}
       />
@@ -86,7 +109,7 @@ export default function ResetPassword() {
         setFormData={setFormData}
         cookies={cookies}
       />
-      <CustomButton text={"Reset Password"} />
+      <CustomButton text={"Reset Password"} loading={loading} />
     </BoxWrapper>
   );
 }

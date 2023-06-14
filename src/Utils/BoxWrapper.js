@@ -45,7 +45,6 @@ const BoxWrapper = ({
               background: Dark00FF(cookies),
             }}
           >
-            {" "}
             <Typography
               sx={{
                 color: cookies.theme === "dark" ? "#fff" : "#1976D2",

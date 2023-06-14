@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import CustomButton from "../../Utils/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { openSnackbar } from "../../app/reducer/Snackbar";
 import CustomTextField from "../../Utils/CustomTextField";
 import BoxWrapper from "../../Utils/BoxWrapper";
 import { FORGOT_PASSWORD } from "../../ApiFunctions/users";
 import { errorHandler } from "../../ApiFunctions/ErrorHandler";
 import { useCookies } from "react-cookie";
-export default function ForgotPassword() {
+import { setLoading } from "../../app/reducer/Loader";
+const ForgotPassword = () => {
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    const [cookies] = useCookies(["theme"]);
+  const [cookies] = useCookies(["theme"]);
   const [formData, setFormData] = useState({
     email: "",
   });
@@ -34,7 +36,7 @@ export default function ForgotPassword() {
       );
       return;
     }
-
+    dispatch(setLoading(true));
     FORGOT_PASSWORD(formData)
       .then((res) => {
         dispatch(
@@ -44,9 +46,11 @@ export default function ForgotPassword() {
           })
         );
         navigate("/reset-password", { state: { ID: res.data } });
+        dispatch(setLoading(false));
       })
       .catch((err) => {
-         errorHandler(err?.status, err?.data, dispatch);
+        errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
@@ -70,7 +74,8 @@ export default function ForgotPassword() {
         type="email"
         disabled={false}
       />
-      <CustomButton text={"Forgot Password"} />
+      <CustomButton text={"Forgot Password"} loading={loading} />
     </BoxWrapper>
   );
-}
+};
+export default ForgotPassword;

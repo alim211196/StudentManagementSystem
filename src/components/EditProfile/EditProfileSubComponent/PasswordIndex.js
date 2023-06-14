@@ -1,14 +1,16 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import {useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 import { openSnackbar } from "../../../app/reducer/Snackbar";
 import { UPDATE_PASSWORD } from "../../../ApiFunctions/users";
 import { errorHandler } from "../../../ApiFunctions/ErrorHandler";
 import FormButton from "../../../Utils/FormButton";
 import UpdatePassword from "./UpdatePassword";
-const PasswordIndex = ({ styles }) => {
+import { setLoading } from "../../../app/reducer/Loader";
+const PasswordIndex = () => {
   const [cookies] = useCookies(["UserId", "theme"]);
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const DataObj = {
     currentPassword: "",
@@ -47,7 +49,7 @@ const PasswordIndex = ({ styles }) => {
       );
       return;
     }
-
+    dispatch(setLoading(true));
     UPDATE_PASSWORD(
       cookies.UserId,
       formData.currentPassword,
@@ -61,9 +63,11 @@ const PasswordIndex = ({ styles }) => {
           })
         );
         setFormData(DataObj);
+        dispatch(setLoading(false));
       })
       .catch((err) => {
         errorHandler(err?.status, err?.data, dispatch);
+        dispatch(setLoading(false));
       });
   };
 
@@ -78,7 +82,11 @@ const PasswordIndex = ({ styles }) => {
         formData={formData}
         setFormData={setFormData}
       />
-      <FormButton cookies={cookies} text={"Update Password"} />
+      <FormButton
+        cookies={cookies}
+        text={"Update Password"}
+        loading={loading}
+      />
     </Box>
   );
 };

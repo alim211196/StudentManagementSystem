@@ -1,32 +1,6 @@
 import { useState, useEffect } from "react";
-import { makeStyles } from "@mui/styles";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-const useStyles = makeStyles({
-  scrollToTopButton: {
-    position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    borderRadius: "50%",
-    background: "radial-gradient(circle at center, #1976D2 , #292929)",
-    color: "white",
-    width: "50px",
-    height: "50px",
-    "&:hover": {
-      background: "radial-gradient(circle at center, #1976D2 , #292929)",
-    },
-  },
-  hidden: {
-    opacity: 0,
-    visibility: "hidden",
-    transition: "all 0.3s ease",
-  },
-  visible: {
-    opacity: 1,
-    visibility: "visible",
-    transition: "all 0.3s ease",
-  },
-});
 
 function ScrollButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -52,15 +26,22 @@ function ScrollButton() {
     });
   };
 
-  const classes = useStyles();
+  const buttonStyles = {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    borderRadius: "50%",
+    background: "radial-gradient(circle at center, #1976D2 , #292929)",
+    color: "white",
+    width: "50px",
+    height: "50px",
+    opacity: isVisible ? 1 : 0,
+    visibility: isVisible ? "visible" : "hidden",
+    transition: "all 0.3s ease",
+  };
 
   return (
-    <Fab
-      className={`${classes.scrollToTopButton} ${
-        isVisible ? classes.visible : classes.hidden
-      }`}
-      onClick={scrollToTop}
-    >
+    <Fab sx={buttonStyles} onClick={scrollToTop}>
       <KeyboardArrowUpIcon />
     </Fab>
   );

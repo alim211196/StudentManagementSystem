@@ -1,6 +1,6 @@
 import { Link, Box, Typography } from "@mui/material";
 import React, { memo } from "react";
-import { DarkFFF, Dark004F, FooterBorder, CardBorder } from "./CommonCookies";
+import { DarkFFF, Dark004F, CardBorder } from "./CommonCookies";
 import { useNavigate } from "react-router-dom";
 
 function Copyright({ cookies, navigate }) {
@@ -17,7 +17,7 @@ function Copyright({ cookies, navigate }) {
         onClick={() => navigate("/sign_in")}
         sx={{ cursor: "pointer" }}
       >
-        Student Management System
+        StudentTracker
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -45,7 +45,7 @@ const Footer = ({ cookies }) => {
         sx={{ color: DarkFFF(cookies) }}
         gutterBottom
       >
-        Student Management System
+        StudentTracker
       </Typography>
       <Copyright cookies={cookies} navigate={navigate} />
     </Box>
